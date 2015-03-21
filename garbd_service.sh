@@ -30,17 +30,17 @@ node1=$2
 node2=$3
 
 if [ -z "$group" ]; then
-    echo "Usage: $0 \"<group>\" \"<ip node1>\" \"<ip node2>\" {start|stop|status|}"
+    echo "Usage: $0 \"<group>\" \"<ip node1>\" \"<ip node2>\" {start|stop|forceStop|status}"
     exit 3
 fi
 
 if [ -z "$node1" ]; then
-    echo "Usage: $0 \"<group>\" \"<ip node1>\" \"<ip node2>\" {start|stop|status|}"
+    echo "Usage: $0 \"<group>\" \"<ip node1>\" \"<ip node2>\" {start|stop|forceStop|status}"
     exit 3
 fi
 
 if [ -z "$node2" ]; then
-    echo "Usage: $0 \"<group>\" \"<ip node1>\" \"<ip node2>\" {start|stop|status|}"
+    echo "Usage: $0 \"<group>\" \"<ip node1>\" \"<ip node2>\" {start|stop|forceStop|status}"
     exit 3
 fi
 
@@ -58,9 +58,9 @@ stop(){
 }
 
 forceStop(){
-    ps -elf | grep $prog | grep -v "grep" | awk '{print $4}' | xargs kill -s SIGKILL
-   # status=$?
-   # [ $status -eq 0 ] && { echo "force stopping $prog service [OK]"; } || { echo "force stopping $prog service [NOT OK]"; }
+    ps -elf | grep $prog | grep -v "grep" | grep -v "${0}" | awk '{print $4}' | xargs kill -s SIGKILL
+    status=$?
+    [ $status -eq 0 ] && { echo "force stopping $prog service [OK]"; } || { echo "force stopping $prog service [NOT OK]"; }
 }
 
 status(){
@@ -86,7 +86,7 @@ case "$4" in
         status
         ;;
   *)
-        echo "Usage: $0 \"<group>\" \"<ip node1>\" \"<ip node2>\" {start|stop|forceStop|status|}"
+        echo "Usage: $0 \"<group>\" \"<ip node1>\" \"<ip node2>\" {start|stop|forceStop|status}"
         exit 3
 esac
 
