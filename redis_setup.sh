@@ -65,6 +65,14 @@ cp src/redis-server /usr/local/bin/
 echo "copy src/redis-server /usr/local/bin/ [OK]"
 cp src/redis-cli /usr/local/bin/
 echo "copy src/redis-cli /usr/local/bin/ [OK]"
+cp src/redis-benchmark /usr/local/bin
+echo "copy src/redis-benchmark /usr/local/bin/ [OK]"
+cp src/redis-check-aof /usr/local/bin
+echo "copy src/redis-check-aof /usr/local/bin/ [OK]"
+cp src/redis-sentinel /usr/local/bin
+echo "copy src/redis-sentinel /usr/local/bin/ [OK]"
+cp src/redis-check-dump /usr/local/bin
+echo "copy src/redis-check-dump /usr/local/bin/ [OK]"
 
 mkdir -p /etc/redis
 echo "mkdir -p /etc/redis [OK]"
