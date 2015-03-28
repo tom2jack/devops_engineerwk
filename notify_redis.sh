@@ -32,24 +32,12 @@ elif [ "${event_type}" == "+odown" ]; then
         mail_subject = "[WARNING] Sentinel on `hostname` (${THIS_IP}) detect: Master is DOWN"
         mail_body=${OUTPUT_FILE}
         send_mail "${mail_subject}" "${mail_body}"
-elif [ "${event_type}" == "+try-failover" ]; then
+elif [ "${event_type}" == "+new-epoch" ]; then
         mail_subject = "[WARNING] Sentinel on `hostname` (${THIS_IP}) say: We will TRY FAILOVER this redis replication"
         mail_body=${OUTPUT_FILE}
         send_mail "${mail_subject}" "${mail_body}"
 elif [ "${event_type}" == "-failover-abort-not-elected" ]; then
         mail_subject = "[ERROR] Sentinel on `hostname` (${THIS_IP}) shout: ABORT FAILOVER. I need you, system admins"
-        mail_body=${OUTPUT_FILE}
-        send_mail "${mail_subject}" "${mail_body}"
-elif [ "${event_type}" == "+promoted-slave" ]; then
-        mail_subject = "[NOTICE] Sentinel on `hostname` (${THIS_IP}) say: Promoted a slave become to master"
-        mail_body=${OUTPUT_FILE}
-        send_mail "${mail_subject}" "${mail_body}"
-elif [ "${event_type}" == "+failover-state-reconf-slaves" ]; then
-        mail_subject = "[NOTICE] Sentinel on `hostname` (${THIS_IP}) say: Reconfig all slaves"
-        mail_body=${OUTPUT_FILE}
-        send_mail "${mail_subject}" "${mail_body}"
-elif [ "${event_type}" == "+convert-to-slave" ]; then
-        mail_subject = "[NOTICE] Sentinel on `hostname` (${THIS_IP}) say: Old master become to slave"
         mail_body=${OUTPUT_FILE}
         send_mail "${mail_subject}" "${mail_body}"
 elif [ "${event_type}" == "+switch-master" ]; then
