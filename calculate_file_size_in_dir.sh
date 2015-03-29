@@ -1,5 +1,7 @@
 #!/bin/bash
 
+echo "This script is very useful for finding big files to remove when full disk usage"
+echo 
 HELP="Usage $0 <staring_dir> [file|dir] [asc|desc]"
 
 starting_dir=$1
