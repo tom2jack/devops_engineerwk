@@ -1,9 +1,8 @@
-#!/bin/sh
+#!/bin/bash
 IPT=`which iptables`
-GW_IF=`route -n | grep "UG" | grep "0.0.0.0" | awk '{print $8}'`
+GW_IF=`route -n | grep "UG" | awk '{print $8}'`
 LO_IF="lo"
 TUN_IF="tun0"
-
 $IPT -F
 
 $IPT -P INPUT DROP
@@ -27,13 +26,14 @@ filter_int()
 	
 }
 
-IP=`ifconfig | grep "inet addr" | grep -v "255.0.0.0" | grep -v "255.255.255.0" | awk -F ":" '{print $2}' | awk '{print $1}'| xargs | sed 's/\s/,/g'`
-if [ ! -z "$IP" ]; then
-filter_int $TUN_IF $IP "22"
-fi
-IP=`ifconfig | grep "inet addr" | grep -v "255.0.0.0" | grep -v "255.255.255.255" | awk -F ":" '{print $2}' | awk '{print $1}'| xargs | sed 's/\s/,/g'`
-$IPT -A OUTPUT -o $GW_IF -s $IP -p udp --dport 53 -j ACCEPT
-filter_int $GW_IF $IP "80"
-
-
-
+for interface in $GW_IF; do
+	IP=`ip a | grep "inet" | grep "$interface" | awk '{print $2}' | xargs | sed 's/\s/,/g'`
+	### /bin/sh co bo cu phap gon hon /bin/bash, khi do toi phai dung dau = (trong /bin/sh) thay vi dau == (trong /bin/bash)
+	if [ "${interface}" == "${TUN_IF}" ]; then
+		ports="22,80" 		
+	else
+		ports="80"
+		$IPT -A OUTPUT -o $interface -s $IP -p udp --dport 53 -j ACCEPT	
+	fi	
+	filter_int $interface $IP $ports
+done
