@@ -1,0 +1,162 @@
+#
+# These groups are read by MariaDB server.
+# Use it for options that only the server (but not clients) should see
+#
+# See the examples of server my.cnf files in /usr/share/mysql/
+#
+
+# this is read by the standalone daemon and embedded servers
+[server]
+
+# this is only for the mysqld standalone daemon
+[mysqld]
+innodb_log_file_size=64M
+#
+# * Galera-related settings
+#
+[galera]
+bind_address=0.0.0.0
+innodb_flush_log_at_trx_commit=1
+wsrep_sst_method=xtrabackup-v2
+wsrep_sst_auth=galera_user:now
+wsrep_cluster_name=AppotaPM
+wsrep_provider=/usr/lib64/galera/libgalera_smm.so
+wsrep_node_address='192.168.7.242'
+wsrep_node_name='node2'
+wsrep_cluster_address=gcomm://192.168.7.241,192.168.7.243
+
+wsrep_slave_threads=32
+wsrep_auto_increment_control=1
+wsrep_provider_options = "gcache.size = 10240M;gcache.name = /data/galera/galera.cache;gcache.dir=/data/galera/;gcs.recv_q_hard_limit=32768M;gcs.fc_limit=16;gcs.fc_master_slave=NO;gcs.fc_factor=0.5"
+#wsrep_provider_options='gcache.size=128M;gcache.name=/data/galera/galera.cache'
+
+
+#wsrep_sst_receive_address=192.168.7.242
+#wsrep_sst_donor=node1,node2,node3
+wsrep_notify_cmd=
+wsrep_log_conflicts=ON
+wsrep_certify_nonPK=ON
+wsrep_recover=OFF
+
+wsrep_retry_autocommit=3
+
+wsrep_max_ws_row=128000
+wsrep_max_ws_size=1G
+
+[embedded]
+
+# This group is only read by MariaDB servers, not by MySQL.
+# If you use the same .cnf file for MySQL and MariaDB,
+# you can put MariaDB-only options here
+[mariadb]
+### basic ###
+user=mysql
+datadir=/var/lib/mysql
+log_error=/var/log/mysqld/mysql_error.log
+socket=/var/lib/mysql/mysql.sock
+port=3306
+default_storage_engine=InnoDB
+binlog_format=ROW
+innodb_autoinc_lock_mode=2
+innodb_doublewrite=1
+sync_binlog=1
+skip_name_resolve=1
+log_output=FILE
+join_buffer_size=4M
+sort_buffer_size=4M
+key_buffer_size=256M
+max_allowed_packet=64M
+low_priority_updates    = 1
+
+### innodb ###
+innodb_buffer_pool_size = 13100M # Go up to 80% of your available RAM
+innodb_buffer_pool_instances = 32
+innodb_file_per_table = 1 # Is the recommended way nowadays
+innodb_write_io_threads = 16 # If you have a strong I/O system or SSD
+innodb_read_io_threads = 16 # If you have a strong I/O system or SSD
+innodb_io_capacity = 2000
+innodb_flush_method=O_DIRECT
+innodb_log_buffer_size= 8M
+innodb_open_files = 1000
+innodb_thread_concurrency=50 #### very important param, optimizing cpu context switch
+
+### buffer ###
+bulk_insert_buffer_size = 16M
+read_buffer_size        = 128K
+read_rnd_buffer_size    = 524288
+
+### query cache ###
+query_cache_limit       = 8M
+query_cache_size        = 256M
+query_cache_type        = 1
+query_prealloc_size     = 163840
+query_alloc_block_size  = 32768
+
+### table open cache ###
+table_open_cache=10000
+
+### network ###
+back_log=75
+
+### thread and connection ###
+thread_stack            = 256K
+thread_cache_size       = 2048
+max_connections         = 2048
+
+### timeout ###
+wait_timeout=30 ### TBD
+interactive_timeout=30
+low_priority_updates    = 1
+### for long query, these params should be increased
+connect_timeout=60
+net_read_timeout=60
+net_write_timeout=60
+
+### temporary tables ###
+tmp_table_size=128M
+max_heap_table_size=128M
+tmpdir=/dev/shm
+#tmpdir=/tmp
+
+### slow query ###
+slow_query_log=1
+log_queries_not_using_indexes=0
+log_warnings=1
+long_query_time = 2
+slow_query_log_file = /var/log/mysqld/mysql_slow.log
+
+### general log ###
+# for debugging
+general_log=0
+general_log_file=/var/log/mysqld/mysql_general.log
+
+### redo log ###
+innodb_log_files_in_group=2
+innodb_log_file_size=64M
+### replication ###
+expire_logs_days=2
+log_bin = /var/log/mysql/mysql-bin
+log_bin_index       = /var/log/mysql/mysql-bin.log.index
+max_binlog_size         = 100M
+server_id=10
+log_slave_updates=1
+
+##security ###
+max_connect_errors=10
+
+###thread pool###
+#thread_handling=pool-of-threads
+#thread_pool_max_threads=200
+#thread_pool_idle_timeout=30
+#thread_pool_stall_limit=300
+
+# If you use the same .cnf file for MariaDB of different versions,
+# use this group for options that older servers don't understand
+[mariadb-10.0]
+
+[xtrabackup]
+datadir = /var/lib/mysql
+streamfmt=xbstream
+#transferfmt=socat
+#encrypt=0
+

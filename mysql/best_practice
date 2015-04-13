@@ -1,0 +1,2 @@
+run mysql_install_db if you need rebuild system tablespace of mysqld
+run mysql_secure_installation at the first time
