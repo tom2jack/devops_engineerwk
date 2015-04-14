@@ -1,0 +1,12 @@
+vi /etc/hosts
+10.0.0.36 mongod1.apptoko.store
+10.0.0.37 mongod2.apptoko.store
+
+sudo mkdir -p /data/mongodb
+sudo chown -R mongod:mongod /data/mongodb
+
+sudo mongod -f /etc/mongod.conf --replSet "ApptokoStore_replset"
+
+rs.initiate()
+rs.add("mongod2.apptoko.store")
+rs.status()

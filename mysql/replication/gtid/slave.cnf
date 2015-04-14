@@ -40,6 +40,11 @@ slave_net_timeout=900
 report_host=192.168.7.231
 skip_slave_start=1
 
+### for performance
+tmpdir=/dev/shm
+innodb_use_native_aio=ON
+innodb_file_per_table=ON
+
 [mysqld_safe]
 log-error=/var/log/mysqld.log
 pid-file=/var/run/mysqld/mysqld.pid

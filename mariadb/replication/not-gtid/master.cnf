@@ -1,0 +1,121 @@
+#
+# These groups are read by MariaDB server.
+# Use it for options that only the server (but not clients) should see
+#
+# See the examples of server my.cnf files in /usr/share/mysql/
+#
+
+# this is read by the standalone daemon and embedded servers
+[server]
+
+# this is only for the mysqld standalone daemon
+[mysqld]
+
+# this is only for embedded server
+[embedded]
+
+# This group is only read by MariaDB servers, not by MySQL.
+# If you use the same .cnf file for MySQL and MariaDB,
+# you can put MariaDB-only options here
+[mariadb]
+
+# This group is only read by MariaDB-10.0 servers.
+# If you use the same .cnf file for MariaDB of different versions,
+# use this group for options that older servers don't understand
+[mariadb-10.0]
+user=mysql
+bind_address=0.0.0.0
+port=3306
+### use symlink refer to higher disk space.
+datadir=/var/lib/mysql
+socket=/var/lib/mysql/mysql.sock
+log-error=/var/log/mysqld/mysqld.log
+pid-file=/var/run/mysqld/mysqld.pid
+### only use IP
+skip-name-resolve=1
+
+### for master
+expire_logs_days = 7
+log_bin = /var/log/mysql/mysql-bin ### required
+log_bin_index       = /var/log/mysql/mysql-bin.log.index
+max_binlog_size         = 100M
+server_id=1  ### required
+binlog_format=MIXED ### required
+### sync_binlog=1 seem more durable but poorer performance. Let OS decide when flush disk
+sync_binlog=0
+
+### some recommend improvement
+innodb_use_native_aio=ON
+tmpdir=/var/log/mysql/tmp1:/var/log/mysql/tmp2
+innodb_buffer_pool_size = 49152M
+innodb_buffer_pool_instances = 16
+innodb_flush_log_at_trx_commit=1
+innodb_flush_method = O_DIRECT
+innodb_read_io_threads = 8
+innodb_write_io_threads = 8
+innodb_io_capacity = 1000
+innodb_file_per_table=ON
+
+### thread cache
+thread_cache_size       = 1024
+max_connections         = 1024
+
+log_output=FILE
+### slow query ###
+slow_query_log=1
+log_queries_not_using_indexes=0
+log_warnings=1
+long_query_time = 2
+slow_query_log_file = /var/log/mysqld/mysql_slow.log
+
+### general log ###
+# for debugging
+general_log=0
+general_log_file=/var/log/mysqld/mysql_general.log
+
+### redo log ###
+innodb_log_files_in_group=2
+innodb_log_file_size=128M
+
+
+### for slave
+relay_log           = /var/log/mysql/mysql-relay-bin
+relay_log_index     = /var/log/mysql/mysql-relay-bin.index
+max_relay_log_size = 100M
+relay_log_space_limit = 1024M
+relay_log_purge=1
+### log_slave_updates only use for chain replication or for galera cluster
+#log_slave_updates=1
+slave_parallel_threads=8
+slave_parallel_max_queued=32M
+report_host=10.0.0.36
+slave_net_timeout=900
+skip_slave_start=1
+
+### improve with crash safe
+relay_log_recovery=1
+
+[xtrabackup]
+datadir = /var/lib/mysql
+streamfmt=xbstream
+
+#### datadir thuc su nam o /data/mysql_datadir
+#### tmpdir thi mot phan nam o /var/log/mysql/tmp1, mot phan tro den /data/mysql_tmpdir
+#sudo mkdir -p /data/mysql_datadir
+#sudo cp -r /var/lib/mysql/* /data/mysql_datadir/
+#sudo rm -rf /var/lib/mysql/
+#sudo ln -s /data/mysql_datadir/ /var/lib/mysql
+#sudo mkdir -p /var/log/mysql
+#sudo mkdir -p /var/log/mysqld
+
+#sudo mkdir -p /var/log/mysql/tmp1
+#sudo mkdir -p /data/mysql_tmpdir
+#sudo ln -s /data/mysql_tmpdir/ /var/log/mysql/tmp2
+
+#sudo chown -R mysql:mysql /var/lib/mysql/
+#sudo chown -R mysql:mysql /var/log/mysql
+#sudo chown -R mysql:mysql /var/log/mysqld
+#sudo chown -R mysql:mysql /data/mysql_tmpdir/
+#sudo chown -R mysql:mysql /data/mysql_datadir/
+
+### GRANT REPLICATION SLAVE ON *.* TO 'replication_user'@'10.0.0.%' IDENTIFIED BY 'pass';

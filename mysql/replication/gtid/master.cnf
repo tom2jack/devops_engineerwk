@@ -25,6 +25,7 @@ enforce_gtid_consistency=true ### required
 ### for performance
 tmpdir=/dev/shm
 innodb_use_native_aio=ON
+innodb_file_per_table=ON
 
 ### in case of master become slave when failover:
 relay_log           = /var/log/mysql/mysql-relay-bin
