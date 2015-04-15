@@ -1,2 +1,24 @@
 run mysql_install_db if you need rebuild system tablespace of mysqld
 run mysql_secure_installation at the first time
+
+innodb_use_native_aio=ON
+fs.aio-max-nr=1048576
+
+vm.swappiness=0
+
+innodb_flush_log_at_trx_commit=1
+
+innodb_flush_method = O_DIRECT
+
+innodb_file_per_table=ON
+
+sync_binlog=0
+
+### dont use tmpdir=/dev/shm with native aio
+tmpdir=/var/log/mysql/tmp1:/var/log/mysql/tmp2
+innodb_buffer_pool_size = 32768M (60% - 80% memory)
+innodb_buffer_pool_instances = 16 (8-16)
+
+trong /etc/init.d/mysql 
+them vao trong function start:
+numactl --interleave=all mysqld...
