@@ -30,4 +30,6 @@ vi /etc/security/limits.d/99-mongodb.conf
 without reboot
 
 
-numactl ???
+run mongod below numactl
+numactl --interleave=all mongod -f /etc/mongod.conf --replSet test_replset
+
