@@ -16,9 +16,19 @@ sync_binlog=0
 
 ### dont use tmpdir=/dev/shm with native aio
 tmpdir=/var/log/mysql/tmp1:/var/log/mysql/tmp2
+### nue co van de thi chuyen sang
+tmpdir=/dev/shm
+
 innodb_buffer_pool_size = 32768M (60% - 80% memory)
 innodb_buffer_pool_instances = 16 (8-16)
 
 trong /etc/init.d/mysql 
 them vao trong function start:
 numactl --interleave=all mysqld...
+
+always use binlog for point in time recovery.
+
+#### Dont set if you do not make sure for it ####
+innodb_log_file_size=128M
+
+innodb_io_capacity=1000
