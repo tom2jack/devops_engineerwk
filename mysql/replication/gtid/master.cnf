@@ -23,9 +23,21 @@ gtid_mode=ON ### required
 enforce_gtid_consistency=true ### required
 
 ### for performance
-tmpdir=/dev/shm
+tmpdir=/tmp
 innodb_use_native_aio=ON
 innodb_file_per_table=ON
+innodb_flush_log_at_trx_commit=1
+innodb_flush_method = O_DIRECT
+innodb_buffer_pool_size = 32768M
+innodb_buffer_pool_instances = 16
+innodb_log_file_size=128M
+innodb_log_files_in_group=2
+#### thread cache
+thread_cache_size       = 1024
+max_connections         = 1024
+query_cache_size=0
+query_cache_type=0
+
 
 ### in case of master become slave when failover:
 relay_log           = /var/log/mysql/mysql-relay-bin

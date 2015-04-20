@@ -12,11 +12,17 @@ innodb_flush_method = O_DIRECT
 
 innodb_file_per_table=ON
 
+innodb_log_file_size=128M
+innodb_log_files_in_group=2
+
 sync_binlog=0
+
+skip_slave_start=1
+skip-name-resolve=1
 
 ### dont use tmpdir=/dev/shm with native aio
 tmpdir=/var/log/mysql/tmp1:/var/log/mysql/tmp2
-### nue co van de thi chuyen sang
+### neu co van de thi chuyen sang
 tmpdir=/dev/shm
 
 innodb_buffer_pool_size = 32768M (60% - 80% memory)
@@ -26,9 +32,32 @@ trong /etc/init.d/mysql
 them vao trong function start:
 numactl --interleave=all mysqld...
 
+#### thread cache
+thread_cache_size       = 1024
+max_connections         = 1024
+
+### use it, only change if have some problem
+query_cache_size=0
+query_cache_type=0
+
+### set by default, modify if you get problem
+### wait for idle non-interactive before abort
+wait_timeout=30
+interactive_timeout=30
+### wait for read connection
+net_read_timeout=60
+### wait for write connection
+net_write_timeout=60
+
 always use binlog for point in time recovery.
 
-#### Dont set if you do not make sure for it ####
-innodb_log_file_size=128M
+#######################################################
 
+#### Dont set if you do not make sure for it ####
 innodb_io_capacity=1000
+tmp_table_size=128M
+max_heap_table_size=128M
+max_allowed_packet=64M
+
+### wait for handshake connection
+connect_timeout=60
