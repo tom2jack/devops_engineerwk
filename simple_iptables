@@ -1,0 +1,16 @@
+#!/bin/bash
+
+iptables -F
+iptables -P INPUT DROP
+iptables -P OUTPUT ACCEPT
+iptables -P FORWARD DROP
+
+iptables -A OUTPUT -o lo -j ACCEPT
+iptables -A INPUT -i lo -j ACCEPT
+
+iptables -A INPUT -s <trust IP1> -j ACCEPT
+iptables -A INPUT -s <trust IP2> -j ACCEPT
+iptables -A INPUT -s <trust IP3> -j ACCEPT
+
+iptables -A INPUT -p tcp -m multiport --dport 22,80 -j ACCEPT
+iptables -A INPUT -m state --state ESTABLISHED,RELATED -j ACCEPT
