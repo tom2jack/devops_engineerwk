@@ -31,3 +31,4 @@ easy_install MySQL-python
 
 Start:
 ansible-playbook -s dbservers.yml
+ansible-playbook -s dbservers.yml --tags "galera_user"
