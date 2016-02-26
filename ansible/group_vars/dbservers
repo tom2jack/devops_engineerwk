@@ -2,4 +2,4 @@ db_datadir: /var/lib/mysql
 db_log: /var/log/mysqld
 db_binlog: /var/log/mysql
 db_tmpdir: /var/log/mysql/tmpdir
-root_db_pass: xa2KT9LUVJ4jUX0nrE9c
+root_db_pass: secret

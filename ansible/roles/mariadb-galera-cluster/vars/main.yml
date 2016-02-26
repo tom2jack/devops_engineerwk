@@ -1,6 +1,6 @@
 galera:
   user_name: galera_user
-  password: backoff
+  password: secret
   cluster_name: TestCluster
 gcache:
   size: 1024M
