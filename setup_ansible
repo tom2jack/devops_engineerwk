@@ -1,3 +1,16 @@
+Install ansible on all servers
+
 wget https://dl.fedoraproject.org/pub/epel/epel-release-latest-6.noarch.rpm
 rpm -ivh epel-release-latest-6.noarch.rpm
 yum install --enablerepo=epel ansible
+
+Pick a server for ansible server and allow it access to the remain servers via SSH based authentication
+
+On ansible server
+ssh-keygen
+Copy the content of /root/.ssh/id_rsa.pub to /root/.ssh/authorized_keys of the remain servers
+
+chmod 600 /root/.ssh/authorized_keys
+chmod 700 /root/.ssh
+chmod 600 /root/.ssh/id_rsa
+chmod 644 /root/.ssh/id_rsa.pub
