@@ -1,0 +1,6 @@
+[dbservers]
+
+<IP1> server_id=21 node_name=node1
+<IP2> server_id=22 node_name=node2
+<IP3> server_id=23 node_name=node3
+

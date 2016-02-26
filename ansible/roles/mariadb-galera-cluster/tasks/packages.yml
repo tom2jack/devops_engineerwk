@@ -1,0 +1,13 @@
+- name: Install MariaDB lastest package
+  yum: name={{ item }} state=latest update_cache=yes
+  with_items:
+  - MariaDB-client
+  - MariaDB-server
+  - galera
+  notify: start mariadb as standalone
+
+- name: Install percona xtrabackup
+  yum: name="percona-xtrabackup" state=latest update_cache=true
+
+- name: Install socat streamer
+  yum: name="socat" state=latest update_cache=true

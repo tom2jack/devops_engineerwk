@@ -1,0 +1,6 @@
+- include: repo.yml
+- include: packages.yml
+- include: create_dir.yml
+- include: config.yml
+- include: mysql_secure_installtion.yml
+- include: galera_user.yml

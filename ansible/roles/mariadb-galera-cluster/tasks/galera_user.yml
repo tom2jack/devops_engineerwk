@@ -1,0 +1,12 @@
+- name: Setup galera user
+  mysql_user: name={{ galera.user_name }} password={{ galera.password }}  login_user=root login_password={{ root_db_pass }} priv="*.*:ALL" state=present host={{ item }}
+  with_items:
+  - "localhost"
+  - "{{ hostvars[groups['dbservers'][0]].inventory_hostname }}"
+  - "{{ hostvars[groups['dbservers'][1]].inventory_hostname }}"
+  - "{{ hostvars[groups['dbservers'][2]].inventory_hostname }}"
+##  - "{{ hostvars['groups']['all'][1] }}"
+#  - "{{ hostvars['groups']['all'][2] }}"
+#  - "{{ hostvars['groups']['all'][3] }}"
+  tags: 
+  - galera_user

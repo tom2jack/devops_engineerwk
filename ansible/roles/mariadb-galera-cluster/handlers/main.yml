@@ -1,0 +1,2 @@
+- name: start mariadb as standalone
+  service: name=mysql state=restarted
