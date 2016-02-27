@@ -1,0 +1,12 @@
+#!/bin/bash
+db=$1
+user=root
+pass="pass"
+output=/var/opt/output.checksum
+echo "CHECKSUM ALL TABLES IN $db" >> $output
+tables=$(mysql -u $user -p$pass -e "show tables" $db | grep -v "Table_in_")
+for tbl in $tables
+do
+  echo "checksum table: $tbl >>" >> $output
+  mysql -u $user -p$pass -e "checksum table $db.$tbl" >> $output
+done
