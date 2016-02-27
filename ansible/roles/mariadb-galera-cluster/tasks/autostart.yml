@@ -1,0 +1,8 @@
+- name: Auto start mysql
+  service: name=mysql enabled=yes
+
+- name: Auto start ntp
+  service: name=ntpd enabled=yes
+
+- name: Auto start iptables
+  service: name=iptables enabled=yes

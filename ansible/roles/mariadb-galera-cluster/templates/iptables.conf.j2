@@ -1,0 +1,17 @@
+#!/bin/bash
+*filter
+:INPUT DROP
+:OUTPUT ACCEPT
+:FORWARD DROP
+
+-A OUTPUT -o lo -j ACCEPT
+-A INPUT -i lo -j ACCEPT
+
+{% for host in groups['dbservers'] %}
+	-A INPUT -s {{ hostvars[host].ansible_default_ipv4.address }} -j ACCEPT
+{% endfor %}
+
+-A INPUT -p tcp -m multiport --dport 22,80 -j ACCEPT
+-A INPUT -m state --state ESTABLISHED,RELATED -j ACCEPT
+
+COMMIT

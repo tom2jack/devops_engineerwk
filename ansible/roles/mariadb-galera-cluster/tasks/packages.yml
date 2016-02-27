@@ -11,3 +11,7 @@
 
 - name: Install socat streamer
   yum: name="socat" state=latest update_cache=true
+
+- name: Install ntpd 
+  yum: name="ntp" state=latest update_cache=true
+  notify: start ntpd

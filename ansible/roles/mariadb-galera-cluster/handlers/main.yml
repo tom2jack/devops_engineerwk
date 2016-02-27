@@ -1,2 +1,8 @@
 - name: start mariadb as standalone
   service: name=mysql state=restarted
+
+- name: start ntpd
+  service: name=ntpd state=restarted
+
+- name: start iptables
+  service: name=iptables state=restarted
