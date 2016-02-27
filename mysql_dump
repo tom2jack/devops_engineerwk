@@ -1,1 +1,3 @@
 mysqldump -u root -p --single-transaction --routines --triggers --events --add-drop-database --add-drop-table --databases <dbname> --master-data=2 --extended-insert --quick --log-error=/tmp/file.dump.log > /root/file.dump 
+
+Datadir 7.3G, dump in a few minutes, file dump size is 3G. It takes about 15 mins to import.
