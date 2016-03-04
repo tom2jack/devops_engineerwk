@@ -1,0 +1,11 @@
+- name: Install nginx dependencies
+  yum: name={{ item }} state=latest update_cache=yes
+  with_items:
+  - pcre-devel
+  - zlib-devel
+  - openssl-devel
+
+- name: Install nginx
+  yum: name={{ latest_nginx_url }} state=present update_cache=yes
+  #notify: start nginx
+  tags: "install nginx"

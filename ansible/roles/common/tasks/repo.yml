@@ -1,0 +1,4 @@
+- name: Add epel repo
+  yum: name="{{ latest_epel_url }}" state=present
+- name: Add remi repo
+  yum: name="{{ latest_remi_url }}" state=present

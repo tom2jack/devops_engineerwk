@@ -9,9 +9,8 @@
 - name: Install percona xtrabackup
   yum: name="percona-xtrabackup" state=latest update_cache=true
 
+- name: Install percona toolkit
+  yum: name="percona-toolkit" state=latest update_cache=true
+
 - name: Install socat streamer
   yum: name="socat" state=latest update_cache=true
-
-- name: Install ntpd 
-  yum: name="ntp" state=latest update_cache=true
-  notify: start ntpd

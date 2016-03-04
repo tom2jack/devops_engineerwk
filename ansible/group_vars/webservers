@@ -1,0 +1,6 @@
+nginx_path: /etc/nginx
+nginx_conf_path: "{{ nginx_path }}/conf.d"
+nginx_vhost_path: "{{ nginx_path }}/conf.d"
+nginx_default_vhost_path: "{{ nginx_path }}/conf.d/default.conf"
+nginx_default_conf: "{{ nginx_path }}/nginx.conf"
+nginx_user: nginx

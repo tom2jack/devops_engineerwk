@@ -1,0 +1,9 @@
+- name: Install compiling packages
+  yum: name={{ item }} state=latest update_cache=true
+  with_items:
+  - gcc
+  - gcc-c++
+
+- name: Install ntpd 
+  yum: name="ntp" state=latest update_cache=true
+  notify: start ntpd

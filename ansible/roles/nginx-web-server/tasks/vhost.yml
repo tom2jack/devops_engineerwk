@@ -1,0 +1,3 @@
+- name: Add vhost
+  template: src=vhost.conf.j2 dest="{{ nginx_vhost_path }}/{{ site_name }}.conf"
+  #notify: reload nginx

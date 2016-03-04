@@ -1,0 +1,4 @@
+- include: repo.yml
+- include: packages.yml
+- include: iptables.yml
+- include: autostart.yml

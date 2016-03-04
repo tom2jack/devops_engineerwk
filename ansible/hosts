@@ -4,3 +4,16 @@
 <IP2> server_id=22 node_name=node2
 <IP3> server_id=23 node_name=node3
 
+[webservers]
+
+<IP1> 
+<IP2>
+<IP3>
+
+[webservers:vars]
+backend=1
+proxy=0
+
+[servers:children]
+webservers
+

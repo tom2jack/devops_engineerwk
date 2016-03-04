@@ -1,0 +1,41 @@
+site_name: example.virtual.com
+root_base_dir: /data/www
+nginx_vhosts:
+ - listen: "80 backlog={{ nginx_backlog }}"
+   server_name: "{{ site_name }} www.{{ site_name }}"
+   root: "{{ root_base_dir }}/{{ site_name }}/public_html"
+   index: "index.php index.html index.htm"
+   access_log: "/var/log/nginx/{{ site_name }}.access.log"
+   error_log: "/var/log/nginx/{{ site_name }}.error.log"
+   extra_parameters: |
+     location ~ \.php$ {
+     }
+
+nginx_upstreams:
+ - name: backend_default
+   servers: {
+        "backend1.example.com",
+        "backend2.example.com",
+        "backend3.example.com"
+   }     
+ - name: backend_1
+   load_balancing_method: least_conn
+   servers: {
+        "backend1.example.com",
+        "backend2.example.com",
+        "backend3.example.com"
+   }
+ - name: backend_2
+   load_balancing_method: ip_hash
+   servers: {
+        "backend1.example.com",
+        "backend2.example.com",
+        "backend3.example.com"
+   }
+ - name: backend_3
+   load_balancing_method: "hash $remote_addr consistent"
+   servers: {
+        "backend1.example.com",
+        "backend2.example.com",
+        "backend3.example.com"
+   }

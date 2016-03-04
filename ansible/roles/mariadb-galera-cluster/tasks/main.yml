@@ -4,6 +4,5 @@
 - include: config.yml
 - include: mysql_secure_installtion.yml
 - include: galera_user.yml
-- include: mini_tuning.yml
-- include: iptables.yml
+- include: system_tuning.yml
 - include: autostart.yml

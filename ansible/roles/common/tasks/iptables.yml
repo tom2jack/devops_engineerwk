@@ -1,5 +1,5 @@
 - name: config simple iptables
   template: src=iptables.conf.j2 dest=/etc/sysconfig/iptables
-#  notify: start iptables
+  notify: start iptables
   tags: 
   - iptables

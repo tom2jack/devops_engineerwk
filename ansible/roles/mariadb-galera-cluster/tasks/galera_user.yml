@@ -8,5 +8,6 @@
 ##  - "{{ hostvars['groups']['all'][1] }}"
 #  - "{{ hostvars['groups']['all'][2] }}"
 #  - "{{ hostvars['groups']['all'][3] }}"
+  ignore_errors: yes
   tags: 
   - galera_user

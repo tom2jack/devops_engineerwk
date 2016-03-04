@@ -1,5 +1,5 @@
 galera:
-  user_name: test
+  user_name: user
   password: secret
   cluster_name: TestCluster
 gcache:
