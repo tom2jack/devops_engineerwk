@@ -29,7 +29,7 @@
   {% endfor -%}
 {% endif -%}
 
-wsrep_sst_method=xtrabackup-v2
+wsrep_sst_method={{ wsrep_sst_method }}
 wsrep_sst_auth={{ galera['user_name'] }}:{{ galera['password'] }}
 wsrep_cluster_name={{ galera['cluster_name'] }}
 wsrep_cluster_address=gcomm://{{ ",".join(cluster_members) }}
@@ -65,23 +65,23 @@ wsrep_retry_autocommit=3
 ### replication ###
 gtid_domain_id={{ gtid_domain_id }}
 server_id={{ server_id }}
-binlog_format=ROW
+binlog_format={{ binlog_format }}
 log_slave_updates=1
 log_bin
 #log_bin=/var/log/mysql/mysql-bin.log
 #log_bin_index=mysql-bin.log.index
-expire_logs_days=3
+expire_logs_days={{ expire_logs_days }}
 max_binlog_size=100M
 
 ### basic ###
 bind-address=0.0.0.0
-user=mysql
+user={{ mysql_user }}
 datadir={{ db_datadir }}
 log_error={{ db_log }}/mysql_error.log
 socket=/var/lib/mysql/mysql.sock
-port=3306
+port={{ db_port }}
 default_storage_engine=InnoDB
-binlog_format=ROW
+binlog_format={{ binlog_format }}
 sync_binlog=0
 skip_name_resolve=1
 log_output=FILE

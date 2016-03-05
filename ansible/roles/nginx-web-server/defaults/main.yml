@@ -1,6 +1,6 @@
 nginx_worker_process: 8
 nginx_error_log: "/var/log/nginx/error.log warn"
-nginx_worker_connections: 1024
+nginx_worker_connections: 4096
 nginx_access_log: "/var/log/nginx/access.log main"
 nginx_debug_log: "/var/log/nginx/debug.log debug"
 nginx_sendfile: "on"

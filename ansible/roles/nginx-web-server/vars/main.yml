@@ -1,3 +1,4 @@
+### Variables for vhost
 site_name: example.virtual.com
 root_base_dir: /data/www
 nginx_vhosts:
@@ -7,10 +8,22 @@ nginx_vhosts:
    index: "index.php index.html index.htm"
    access_log: "/var/log/nginx/{{ site_name }}.access.log"
    error_log: "/var/log/nginx/{{ site_name }}.error.log"
-   extra_parameters: |
+   proxy_extra_parameters: |
+     location / {
+        proxy_pass http://{{ upstream_name }};
+     }
+ 
+   backend_extra_parameters: |
      location ~ \.php$ {
      }
 
+     location = /robots.txt {
+        allow all;
+        access_log /dev/null;
+     }
+
+### Variables for upstream
+upstream_name: backend_1
 nginx_upstreams:
  - name: backend_default
    servers: {

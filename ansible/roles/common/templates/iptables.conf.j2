@@ -8,7 +8,7 @@
 -A INPUT -i lo -j ACCEPT
 
 {% for host in groups['servers'] %}
-	-A INPUT -s {{ hostvars[host].ansible_default_ipv4.address }} -j ACCEPT
+-A INPUT -s {{ hostvars[host].ansible_default_ipv4.address }} -j ACCEPT
 {% endfor %}
 
 -A INPUT -p tcp -m multiport --dport 22,80 -j ACCEPT

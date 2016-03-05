@@ -27,25 +27,21 @@ http {
     tcp_nodelay {{ nginx_tcp_nodelay }};
     keepalive_timeout {{ nginx_keepalive_timeout }};
 
-{% if proxy == 1 %}
-
+{% if proxy is defined and  proxy == 1 %}
 {% for upstream in nginx_upstreams %}
     upstream {{ upstream.name }} {
 {% if upstream.load_balancing_method is defined %}
-        {{ upstream.load_balancing_method }};
+    	{{ upstream.load_balancing_method }};
 {% endif %}
 {% for server in upstream.servers %}
-        server {{ server }};
+	server {{ server }};
 {% endfor %}
     }
+
 {% endfor %}
-
 {% endif %}
-
-
     include {{ nginx_conf_path }}/*.conf;
 {% if nginx_conf_path != nginx_vhost_path %}
     include {{ nginx_vhost_path }}/*;
 {% endif %}
-
 }

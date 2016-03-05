@@ -3,6 +3,8 @@
   with_items:
   - gcc
   - gcc-c++
+  - python-devel
+  - openssl-devel
 
 - name: Install ntpd 
   yum: name="ntp" state=latest update_cache=true

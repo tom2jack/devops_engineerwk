@@ -1,0 +1,5 @@
+git checkout -- filename
+git rm filename
+git add .
+git commit -m "comment"
+git push -u origin master

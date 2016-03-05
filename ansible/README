@@ -1,0 +1,17 @@
+How to use mariadb-galera-cluster roles
+
+In inventory file hosts:
+You MUST set server_id and node_name for each node
+
+How to use nginx-web-server roles to create vhost backend or create proxy
+
+In inventory file hosts:
+You MUST set proxy=1 for proxy servers and set backend=1 for upstream servers
+
+In nginx-web-server/vars/main.yml:
+For upstream, you just only modify site_name and backend_extra_parameters
+For proxy, you modify site_name, upstream_name, proxy_extra_parameters and upstream list
+
+Run:
+ansible-playbook -s webservers.yml --tags "creating nginx.conf"
+ansible-playbook -s webservers.yml --tags "add vhost"

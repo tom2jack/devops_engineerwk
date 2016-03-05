@@ -1,2 +1,2 @@
 - name: Create config file
-  template: src=mariadb.conf.j2 dest=/etc/my.cnf.d/server.cnf
+  template: src=mariadb.conf.j2 dest=/etc/my.cnf.d/server.cnf backup=yes

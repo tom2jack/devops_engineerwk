@@ -1,3 +1,0 @@
-- name: Create config file
-  template: src=nginx.conf.j2 dest={{ nginx_default_conf }}
-  #notify: reload nginx

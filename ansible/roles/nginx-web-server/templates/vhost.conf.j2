@@ -2,23 +2,24 @@
 server {
     listen {{ vhost.listen | default('80 default_server') }};
     server_name {{ vhost.server_name }};
-
-    {% if backend == 1 %}	
-    {% if vhost.root is defined %}
+{% if backend is defined and backend == 1 %}	
+{% if vhost.root is defined %}
     root {{ vhost.root }};
-    {% endif %}
-
+{% endif %}
     index {{ vhost.index | default('index.html index.htm') }};
-    {% endif %}
-
-    {% if vhost.access_log is defined %}
+{% endif %}
+{% if vhost.access_log is defined %}
     access_log {{ vhost.access_log }};
-    {% endif %}
-    {% if vhost.error_log is defined %}
+{% endif %}
+{% if vhost.error_log is defined %}
     error_log {{ vhost.error_log }} error;
-    {% endif %}
-    {% if vhost.extra_parameters is defined %}
-    {{ vhost.extra_parameters }}
-    {% endif %}
+{% endif %}
+
+{% if backend is defined and backend == 1 and vhost.backend_extra_parameters is defined %}
+    {{ vhost.backend_extra_parameters | indent( width=4, indentfirst=False) }}
+{% endif %}
+{% if proxy is defined and proxy == 1 and vhost.proxy_extra_parameters is defined %}
+    {{ vhost.proxy_extra_parameters | indent( width=4, indentfirst=False) }}
+{% endif %}
 }
 {% endfor %}
