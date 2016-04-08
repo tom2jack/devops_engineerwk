@@ -4,6 +4,7 @@
   - MariaDB-client
   - MariaDB-server
   - galera
+  - MariaDB-devel
   notify: start mariadb as standalone
 
 - name: Install percona xtrabackup
@@ -14,3 +15,6 @@
 
 - name: Install socat streamer
   yum: name="socat" state=latest update_cache=true
+
+- name: Install MySQL-python lib
+  easy_install: name="MySQL-python" state=latest
