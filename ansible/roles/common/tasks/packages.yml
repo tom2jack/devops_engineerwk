@@ -1,3 +1,6 @@
+- name: Clean yum
+  command: yum clean all
+
 - name: Install default packages
   yum: name={{ item }} state=latest update_cache=true
   with_items:
