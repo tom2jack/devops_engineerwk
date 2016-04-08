@@ -1,10 +1,23 @@
-- name: Install compiling packages
+- name: Install default packages
   yum: name={{ item }} state=latest update_cache=true
   with_items:
   - gcc
   - gcc-c++
   - python-devel
   - openssl-devel
+  - zlib-devel
+  - atop
+  - ioping
+  - smartmontools
+  - dmidecode
+  - sysbench
+  - fio
+  - lshw
+  - iotop
+  - iftop
+  - nethogs
+  - iptraf
+  - vim
 
 - name: Install ntpd 
   yum: name="ntp" state=latest update_cache=true
