@@ -20,4 +20,4 @@
   yum: name="socat" state=latest update_cache=true
 
 - name: Install MySQL-python lib
-  easy_install: name="MySQL-python" state=latest
+  easy_install: name="MySQL-python"
