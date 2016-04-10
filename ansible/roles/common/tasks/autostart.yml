@@ -2,4 +2,4 @@
   service: name=ntpd enabled=yes
 
 - name: Auto start iptables
-  service: name=iptables enabled=yes
+  service: name=iptables enabled=no

@@ -1,0 +1,14 @@
+- name: Config /etc/xinetd.d/{{ xinetd_service_name }}
+  template: src=mysqlchk.conf.j2 dest=/etc/xinetd.d/{{ xinetd_service_name }} backup=yes
+- name: Config /etc/services
+  lineinfile: "dest=/etc/services state=present line='{{ xinetd_service_name }}	{{ xinetd_port }}/tcp'"
+- name: Create {{ script_path }}
+  file: path={{ item }} state=directory owner={{ nobody_user }} group={{ nobody_user }}
+  with_items:
+  - "{{ script_path }}"
+- name: Config script check
+  template: src=galera.check.conf.j2 dest={{ script_name }} backup=yes
+- name: Assign owner and permission to {{ script_name }}
+  file: path={{ script_name }} owner={{ nobody_user }} group={{ nobody_user }} mode=550
+  notify: start xinetd
+  

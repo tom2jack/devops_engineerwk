@@ -1,0 +1,7 @@
+- name: Setup haproxy user
+  mysql_user: name={{ haproxy.user }} password={{ haproxy.password }}  login_user={{ mysql_user }} login_password={{ mysql_password }} state=present host={{ item }}
+  with_items:
+  - {{ mysql_host }}
+  ignore_errors: yes
+  tags: 
+  - create_haproxy_user
