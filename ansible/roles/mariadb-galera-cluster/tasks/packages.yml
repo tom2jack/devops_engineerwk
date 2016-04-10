@@ -9,7 +9,7 @@
   - galera
   - MariaDB-devel
   - python-setuptools
-  notify: start mariadb as standalone
+#  notify: start mariadb as standalone
 
 - name: Install percona xtrabackup
   yum: name="percona-xtrabackup" state=latest update_cache=true
