@@ -9,5 +9,5 @@ root_user: root
 root_password: "root pass"
 haproxy:
  user: haproxyUser
- password: "Do the thing we fear and death of fear is certain" 
+ password: "haproxy pass" 
 
