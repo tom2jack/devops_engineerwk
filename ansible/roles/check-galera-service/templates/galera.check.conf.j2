@@ -7,7 +7,7 @@ CLUSTER_STATUS="Primary"
 MYSQL_HOST={{ mysql_host }}
 MYSQL_PORT={{ mysql_port }}
 MYSQL_USERNAME={{ haproxy.user }}
-MYSQL_PASSWORD={{ haproxy.password }}
+MYSQL_PASSWORD="{{ haproxy.password }}"
 
 cat=`which cat`
 echo=`which echo`
