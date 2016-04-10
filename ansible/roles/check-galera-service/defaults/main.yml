@@ -1,7 +1,7 @@
 xinetd_service_name: mysqlchk
 xinetd_port: 9116
 script_path: /usr/bin/galera
-script_name: {{ script_path }}/galera_check
+script_name: "{{ script_path }}/galera_check"
 nobody_user: nobody
 mysql_host: localhost
 mysql_port: 3306
