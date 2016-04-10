@@ -21,6 +21,7 @@
   - nethogs
   - iptraf
   - vim
+  - telnet
 
 - name: Install ntpd 
   yum: name="ntp" state=latest update_cache=true
