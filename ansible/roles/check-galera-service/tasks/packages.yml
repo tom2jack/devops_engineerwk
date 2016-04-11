@@ -5,4 +5,9 @@
   yum: name={{ item }} state=latest update_cache=true
   with_items:
   - xinetd
+  - python-setuptools
   notify: start xinetd
+
+- name: Install MySQL-python lib
+  easy_install: name="MySQL-python"
+

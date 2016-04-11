@@ -9,6 +9,9 @@ IP1
 IP2
 IP3
 
+[xtrabackup_service]
+IP1
+
 [dbservers:vars]
 
 [webservers]

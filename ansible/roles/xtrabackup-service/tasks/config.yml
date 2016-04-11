@@ -1,0 +1,21 @@
+- name: Config crontab
+  cron: name="backup mysql" minute="1" hour="0,12" job={{ script_path }}/{{ mysql_backup_script }}
+  cron: name="clean old backup" minute="1" hour="6" job={{ script_path }}/{{ mysql_backup_cleaner_script }}
+
+- name: Create {{ script_path }}
+  file: path={{ item }} state=directory owner={{ nobody_user }} group={{ nobody_user }}
+  with_items:
+  - "{{ script_path }}"
+
+- name: Config mysql_backup
+  template: src=mysql.backup.conf.j2 dest={{ script_path }}/{{ mysql_backup_script }} backup=yes
+
+- name: Config mysql_backup_cleaner
+  template: src=mysql.backup.cleaner.conf.j2 dest={{ script_path }}/{{ mysql_backup_cleaner_script }} backup=yes
+
+- name: Assign owner and permission to script
+  file: path={{ item }} mode=u+x
+  with_items:
+  - "{{ script_path }}/{{ mysql_backup_script }}"
+  - "{{ script_path }}/{{ mysql_backup_cleaner_script }}"
+  

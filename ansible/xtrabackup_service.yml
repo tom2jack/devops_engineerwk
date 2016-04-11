@@ -1,0 +1,3 @@
+- hosts: xtrabackup_service
+  roles:  
+  - role: xtrabackup-service

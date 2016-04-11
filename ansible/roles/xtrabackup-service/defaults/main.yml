@@ -1,0 +1,19 @@
+xtrabackup:
+ script_path: /usr/bin/xtrabackup
+ mysql_backup_script: mysql_backup
+ mysql_backup_cleaner_script: mysql_backup_cleaner
+ binary: innobackupex
+ parallel: 1
+ lock_wait_timeout: 180
+ lock_wait_threshold: 20
+ lock_wait_query_type: all
+ kill_long_queries_timeout: 20
+ kill_long_query_type: all
+ destination: /data/xtrabackup/mysql
+ log: /var/log/mysqld/backup.log
+ cleaner_log: /var/log/mysqld/backup_cleaner.log
+ backup_number: 3
+root_user: root
+root_password: "root pass"
+mysql_host: localhost
+mysql_port: 3306
