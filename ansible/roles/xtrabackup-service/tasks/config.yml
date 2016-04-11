@@ -6,6 +6,7 @@
   file: path={{ item }} state=directory owner={{ nobody_user }} group={{ nobody_user }}
   with_items:
   - "{{ script_path }}"
+  - "{{ xtrabackup.destination }}"
 
 - name: Config mysql_backup
   template: src=mysql.backup.conf.j2 dest={{ script_path }}/{{ mysql_backup_script }} backup=yes

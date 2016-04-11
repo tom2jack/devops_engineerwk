@@ -10,8 +10,8 @@ xtrabackup:
  kill_long_queries_timeout: 20
  kill_long_query_type: all
  destination: /data/xtrabackup/mysql
- log: /var/log/mysqld/backup.log
- cleaner_log: /var/log/mysqld/backup_cleaner.log
+ log: "{{ xtrabackup.destination }}/backup.log"
+ cleaner_log: "{{ xtrabackup.destination }}/backup_cleaner.log"
  backup_number: 3
 root_user: root
 root_password: "root pass"
