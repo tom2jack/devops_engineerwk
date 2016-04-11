@@ -1,12 +1,14 @@
 #!/bin/bash
-db=$1
-user=root
-pass="pass"
-output=/var/opt/output.checksum
+user=${1:-root}
+pass=${2:-"root pass"}
+db=${3:-test}
+output=${4:-result}
+[ $# -eq 0 ] && { echo "Usage: $0 username password db output_file"; exit 1; }
+echo "" > $output
 echo "CHECKSUM ALL TABLES IN $db" >> $output
-tables=$(mysql -u $user -p$pass -e "show tables" $db | grep -v "Tables_in_")
+tables=$(mysql -u $user -p"$pass" -e "show tables" $db | grep -v "Tables_in_")
 for tbl in $tables
 do
   echo "checksum table: $tbl >>" >> $output
-  mysql -u $user -p$pass -e "checksum table $db.$tbl" >> $output
+  mysql -u $user -p"$pass" -e "checksum table $db.$tbl" >> $output
 done
