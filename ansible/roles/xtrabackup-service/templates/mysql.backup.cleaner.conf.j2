@@ -3,6 +3,6 @@
 # Wait for lock on /var/lock/.myscript.lock (fd 200) for 10 seconds
 flock -x -w 10 200 || exit 1
 
-ls -td1 {{ xtrabackup.destination }}/*/ | tail -n +{{ xtrabackup.backup_number }} | xargs rm -rfv 2> {{ xtrabackup.cleaner_log }}
+ls -td1 {{ destination }}/*/ | tail -n +{{ xtrabackup.backup_number }} | xargs rm -rfv 2> {{ cleaner_log }}
 
 ) 200>/var/lock/.{{ mysql_backup_cleaner_script }}.lock
