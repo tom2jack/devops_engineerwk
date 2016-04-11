@@ -1,0 +1,17 @@
+#!/bin/bash
+user=${1:-root}
+pass=${2:-"root pass"}
+output=${3:-result}
+mode=${4:-all}  ### specific,all,table
+
+if [ $mode == "all" ] 
+then
+  echo "" > $output
+  mysqldump -u $user -p"$pass" --single-transaction --routines --triggers --events --add-drop-database --add-drop-table --all-databases --master-data=2 --extended-insert --quick --log-error=/tmp/file.dump.log > "$output"
+elif [ $mode == "specific" ]
+then
+  echo "" > $output
+elif [ $mode == "table" ]
+then
+  echo "" > $output
+fi
