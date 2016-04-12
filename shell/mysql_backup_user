@@ -1,0 +1,10 @@
+#!/bin/bash                                                                                                                                      
+root=${1:-root}
+pass=${2:-"root pass"}
+output=${3:-result}
+user_list=$(mysql -u "$root" -p"$pass" -e "select concat(char(39), user, char(39), '@', char(39), host, char(39)) as user_host from mysql.user" | grep -v "user_host")
+echo "" > $output
+for item in $user_list; do
+   mysql -u "$root" -p"$pass" -e "show grants for $item" | grep -v "Grants for" >> ${output}.temp
+done
+sed 's/$/;/' ${output}.temp > $output
