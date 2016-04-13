@@ -16,6 +16,7 @@ function apply_default_privileges () {
         for db in $db_list; do
         debug "------------------> DB=$db"
             mysql -u $root -p"$pass" -Ane "revoke all privileges on ${db} from ${user};"
+            mysql -u $root -p"$pass" -Ane "revoke grant option on ${db} from ${user};"
             mysql -u $root -p"$pass" -Ane "grant references, index, create temporary tables, lock tables, create view, show view, create routine, alter routine, trigger, delete, insert, select, update, execute on ${db} to ${user};"
         done
     fi
@@ -31,8 +32,6 @@ for user in $user_list; do
         if [[ $user == *"root"* ]] || [[ $user == *"haproxyUser"* ]] || [[ $user == *"galera_user"* ]] || [[ $user == *"appota_repl"* ]]; then
             continue
         fi
-        db_list=$(mysql -u $root -p"$pass" -e "show grants for $user" | grep -i -E '(drop|alter,|create,|alter on|create on)' | sed -n 's/.*ON\(.*\)TO.*/\1/p')
-        apply_default_privileges "${db_list}" "${user}"
-        db_list=$(mysql -u $root -p"$pass" -e "show grants for $user" | grep -i "all privileges on" | sed -n 's/.*ON\(.*\)TO.*/\1/p')
+        db_list=$(mysql -u $root -p"$pass" -e "show grants for $user" | grep -i -E '(drop|alter,|create,|alter on|create on|with grant option|all privileges on)' | sed -n 's/.*ON\(.*\)TO.*/\1/p')
         apply_default_privileges "${db_list}" "${user}"
 done
