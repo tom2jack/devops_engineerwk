@@ -21,6 +21,9 @@ function apply_default_privileges () {
     fi
 }
 
+echo "NEN DUNG mysql_backup_user de backup thong tin tai khoan va privileges truoc khi dung..."
+sleep 5
+
 user_list=$(mysql -u $root -p"$pass" -e "select concat(char(39), user, char(39), '@', char(39), host, char(39)) as user_host from mysql.user" | grep -v "user_host");
 
 for user in $user_list; do
@@ -28,7 +31,7 @@ for user in $user_list; do
         if [[ $user == *"root"* ]] || [[ $user == *"haproxyUser"* ]] || [[ $user == *"galera_user"* ]] || [[ $user == *"appota_repl"* ]]; then
             continue
         fi
-        db_list=$(mysql -u $root -p"$pass" -e "show grants for $user" | grep -i -E '(truncate|drop|alter|create)' | sed -n 's/.*ON\(.*\)TO.*/\1/p')
+        db_list=$(mysql -u $root -p"$pass" -e "show grants for $user" | grep -i -E '(drop|alter,|create,|alter on|create on)' | sed -n 's/.*ON\(.*\)TO.*/\1/p')
         apply_default_privileges "${db_list}" "${user}"
         db_list=$(mysql -u $root -p"$pass" -e "show grants for $user" | grep -i "all privileges on" | sed -n 's/.*ON\(.*\)TO.*/\1/p')
         apply_default_privileges "${db_list}" "${user}"
