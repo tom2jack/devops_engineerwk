@@ -17,7 +17,7 @@ function apply_default_privileges () {
         debug "------------------> DB=$db"
             mysql -u $root -p"$pass" -Ane "revoke all privileges on ${db} from ${user};"
             mysql -u $root -p"$pass" -Ane "revoke grant option on ${db} from ${user};"
-            mysql -u $root -p"$pass" -Ane "grant references, index, create temporary tables, lock tables, create view, show view, create routine, alter routine, trigger, delete, insert, select, update, execute on ${db} to ${user};"
+            mysql -u $root -p"$pass" -Ane "grant index, create temporary tables, create view, show view, create routine, alter routine, trigger, delete, insert, select, update, execute on ${db} to ${user};"
         done
     fi
 }

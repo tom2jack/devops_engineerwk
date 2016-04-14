@@ -10,7 +10,7 @@ function convert_user_to_host () {
    the_host_list=$2
    the_db=$3
    for the_host in $the_host_list; do
-       echo "grant references, index, create temporary tables, lock tables, create view, show view, create routine, alter routine, trigger, delete, insert, select, update, execute on \`${the_db}\`.* to '${the_user}'@'${the_host}';"  >> "${output}"
+       echo "grant index, create temporary tables, create view, show view, create routine, alter routine, trigger, delete, insert, select, update, execute on \`${the_db}\`.* to '${the_user}'@'${the_host}';"  >> "${output}"
    done
 }
 
