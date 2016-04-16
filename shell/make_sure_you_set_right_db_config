@@ -1,0 +1,43 @@
+#!/bin/bash
+root=${1:-root}
+pass=${2:-"root pass"}
+
+### check if innodb_file_per_table is on, if all table is engine innodb, if all tables is not crashed, if slave is read-only
+
+function check_innodb_file_per_table() {
+   msg=""
+   result=$(mysql -u $root -p"$pass" -Ane "show global variables like 'innodb_file_per_table'" | grep "ON")
+echo $result
+   if [[ ! -z $result ]]; then
+      return 0
+   else
+      msg="SET innodb_file_per_table=ON NOW"
+      echo $msg
+      return 1
+   fi
+}
+
+function check_table_engine() {
+   msg=""
+   output=$(mysql -u $root -p"$pass" -Ane "select concat(table_schema,'.',table_name,'=>',engine) as schema_table_engine from information_schema.tables where engine != 'InnoDB' and table_schema not in ('mysql','information_schema','performance_schema')" | grep -v "schema_table_engine")
+   if [[ -z $output ]]; then
+      return 0
+   else
+      msg="!INNODB TABLE ENGINE: $output"
+      echo $msg
+      return 1
+   fi
+}
+
+function check_if_table_is_crashed() {
+    return 0
+}
+function check_slave_is_read_only() {
+    return 0
+}
+
+output=$(check_innodb_file_per_table)
+[ ! $? -eq 0 ] && echo $output
+output=$(check_table_engine)
+[ ! $? -eq 0 ] && echo $output
+
