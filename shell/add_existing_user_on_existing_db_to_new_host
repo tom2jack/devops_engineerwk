@@ -17,7 +17,7 @@ function convert_user_to_host () {
 
 function get_password_of_user() {
    the_user=$1
-   the_password=$(mysql -u $root -p"$pass" -Ane "select password from mysql.user where user='${the_user}' limit 1" | grep -v "password")
+   the_password=$(mysql -u $root -p"$pass" -Ane "select password from mysql.user where user='${the_user}' and password is not null limit 1" | grep -v "password")
    status=$?
    echo $the_password
    return $status

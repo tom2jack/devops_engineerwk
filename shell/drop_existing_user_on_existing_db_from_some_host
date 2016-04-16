@@ -5,7 +5,7 @@ db_list=${3:-"db list"}
 host_list=${4:-"host list"}
 log=$5
 
-[ ! -z $log ] && echo "" > $log
+[[ ! -z $log ]] && echo "" > $log
 
 ###
 # get all user working on each db on db_list
@@ -16,7 +16,7 @@ for db in $db_list; do
     user_list=$(mysql -u $root -p"$pass" -Ane "select distinct user as user_items from mysql.db where db='${db}'" | grep -v "user_items")
     for user in $user_list; do
         for host in $host_list; do
-            if [ -z $log ]; then
+            if [[ -z $log ]]; then
                mysql -u $root -p"$pass" -Ane "drop user '${user}'@'${host}'"
             else
                mysql -u $root -p"$pass" -Ane "drop user '${user}'@'${host}'" >> $log
