@@ -1,0 +1,10 @@
+- name: Auto start all service
+  service: name={{ item }} enabled=yes
+  with_items:
+  - ntpd
+  - mysqld
+  - snmpd
+  - crond
+  - nginx
+  - php-fpm
+  ignore_errors: yes

@@ -1,0 +1,43 @@
+- name: Clean yum
+  command: yum clean all
+
+- name: Install dependencies
+  yum: name={{ item }} state=latest update_cache=yes enablerepo=remi
+  with_items:
+  - nginx
+  - php
+  - mysqld
+  - ntp
+  - rrdtool
+  - rrdtool-devel
+  - rrdtool-perl
+  - rrdtool-ruby
+  - php-mysql
+  - php-snmp
+  - php-xml
+  - php-ldap
+  - php-pear
+  - php-gd
+  - php-devel
+  - php-mbstring
+  - net-snmp
+  - net-snmp-utils
+  - net-snmp-libs
+  - php-fpm
+  - python-setuptools
+  ignore_errors: yes
+
+- name: Download cacti
+  get_url: url={{ latest_cacti_url }} dest={{ cacti_temp_file_download }}
+
+- name: Extract cacti
+  unarchive: src={{ cacti_temp_file_download }} dest={{ cacti_temp_dir }} creates=no copy=no
+
+- name: Download cacti percona plugin
+  get_url: url={{ latest_cacti_plugin_url }} dest={{ cacti_plugin_temp_file_download }}
+
+- name: Extract cacti percona plugin
+  unarchive: src={{ cacti_plugin_temp_file_download }} dest={{ cacti_plugin_temp_dir }} creates=no copy=no
+
+- name: Install MySQL-python lib
+  easy_install: name="MySQL-python"

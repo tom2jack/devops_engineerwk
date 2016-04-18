@@ -1,0 +1,13 @@
+- name: restart all service
+  service: name={{ item }} state=restarted
+  with_items:
+  - ntpd
+  - mysqld
+  - snmpd
+  - crond
+  - nginx
+  - php-fpm
+  ignore_errors: yes
+
+- name: Update ntpd service
+  command: ntpq -p

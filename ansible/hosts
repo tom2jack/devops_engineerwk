@@ -27,3 +27,5 @@ IP4 proxy=1
 [servers:children]
 webservers
 
+[cacti]
+IP1

@@ -1,0 +1,37 @@
+temp_dir: /tmp
+cacti_version: 0.8.8g
+cacti_domain: cacti.test.com
+cacti_temp_file_download: "{{ temp_dir }}/cacti-{{ cacti_version }}.tar.gz"
+cacti_temp_dir: "{{ temp_dir }}/cacti-{{ cacti_version}}"
+web_root: /var/www/html
+cacti_web_root: "{{ web_root }}/cacti_monitor"
+cacti_install_dir: "{{ cacti_web_root }}/cacti"
+web_config_dir: /etc/nginx/conf.d
+cacti_vhost: "{{ web_config_dir }}/{{ cacti_domain }}.conf"
+cacti_plugin_version: 1.1.6
+cacti_plugin_temp_file_download: "{{ temp_dir }}/percona-monitoring-plugins-{{ cacti_plugin_version }}.tar.gz"
+cacti_plugin_temp_dir:  "{{ temp_dir }}/percona-monitoring-plugins-{{ cacti_plugin_version }}"
+cacti:
+    db: cacti
+    user: cactiuser
+    remote_user: cacti
+    remote_mysql_user: cacti
+    mysql_user: cactiuser
+    mysql_pass: cactipass
+    plugin:
+        conf_dir: /etc/cacti
+        ssh_script: ss_get_by_ssh.php
+        mysql_script: ss_get_mysql_stats.php
+    get_by_ssh:
+        ssh_user: cacti
+        ssh_port: 22
+        ssh_iden: /etc/cacti/id_rsa
+    get_mysql_stats:
+        mysql_user: cacti
+        mysql_pass: cactipass
+        mysql_port: 3306
+limits_conf: /etc/security/limits.d/default.conf
+mysql:
+    user: root
+    password: ""
+

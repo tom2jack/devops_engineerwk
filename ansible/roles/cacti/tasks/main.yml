@@ -1,0 +1,5 @@
+- include: package.yml
+- include: config.yml
+- include: config_plugin.yml
+- include: restart_all_service.yml
+- include: autostart.yml
