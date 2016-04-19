@@ -55,4 +55,4 @@
   template: src=cacti.mysql.conf.j2 dest={{ cacti_install_dir }}/include/config.php
 
 - name: config crontab
-  lineinfile: dest=/etc/crontab line="*/5 * * * * cactiuser php /var/www/html/monitor/cacti/poller.php > /dev/null 2>&1" state=present backup=yes
+  lineinfile: dest=/etc/crontab line="*/5 * * * * cactiuser php {{ cacti_install_dir }}/poller.php > /dev/null 2>&1" state=present backup=yes
