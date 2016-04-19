@@ -10,3 +10,6 @@ git remote add origin <URL.git>
 git remote -v
 git init
 git --version
+git log
+git clone
+git show HEAD
