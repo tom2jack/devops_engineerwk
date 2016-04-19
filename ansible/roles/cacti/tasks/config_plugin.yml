@@ -2,13 +2,13 @@
   file: path={{ cacti.plugin.conf_dir }} state=directory   
 
 - name: copy scripts/ss_get_by_ssh.php 
-  copy: src={{ cacti_plugin_temp_dir }}/scripts/{{ cacti.plugin.ssh_script }} dest={{ cacti_install_dir }}/scripts
+  copy: src={{ cacti_plugin_temp_dir }}/cacti/scripts/{{ cacti.plugin.ssh_script }} dest={{ cacti_install_dir }}/scripts
 
 - name: copy ss_get_by_ssh.php.cnf
   template: src=cacti.get_by_ssh.conf.j2 dest={{ cacti.plugin.conf_dir }}/{{ cacti.plugin.ssh_script }}.cnf
 
 - name: copy scripts/ss_get_mysql_stats.php
-  copy: src={{ cacti_plugin_temp_dir }}/scripts/{{ cacti.plugin.mysql_script }} dest={{ cacti_install_dir }}/scripts
+  copy: src={{ cacti_plugin_temp_dir }}/cacti/scripts/{{ cacti.plugin.mysql_script }} dest={{ cacti_install_dir }}/scripts
 
 - name: copy ss_get_mysql_stats.php.cnf
   template: src=cacti.get_mysql_stats.conf.j2 dest={{ cacti.plugin.conf_dir }}/{{ cacti.plugin.mysql_script }}.cnf
