@@ -2,5 +2,3 @@ latest_epel_url: https://dl.fedoraproject.org/pub/epel/epel-release-latest-6.noa
 latest_remi_url: http://rpms.famillecollet.com/enterprise/remi-release-6.rpm
 latest_percona_url: http://www.percona.com/downloads/percona-release/redhat/0.1-3/percona-release-0.1-3.noarch.rpm
 latest_nginx_url: http://nginx.org/packages/centos/6/x86_64/RPMS/nginx-1.8.1-1.el6.ngx.x86_64.rpm
-latest_cacti_url: http://www.cacti.net/downloads/cacti-0.8.8g.tar.gz
-latest_cacti_plugin_url: https://www.percona.com/downloads/percona-monitoring-plugins/1.1.6/percona-monitoring-plugins-1.1.6.tar.gz

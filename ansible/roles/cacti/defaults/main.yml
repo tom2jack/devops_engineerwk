@@ -11,6 +11,8 @@ cacti_vhost: "{{ web_config_dir }}/{{ cacti_domain }}.conf"
 cacti_plugin_version: 1.1.6
 cacti_plugin_temp_file_download: "{{ temp_dir }}/percona-monitoring-plugins-{{ cacti_plugin_version }}.tar.gz"
 cacti_plugin_temp_dir:  "{{ temp_dir }}/percona-monitoring-plugins-{{ cacti_plugin_version }}"
+latest_cacti_url: "http://www.cacti.net/downloads/cacti-{{ cacti_version }}.tar.gz"
+latest_cacti_plugin_url: "https://www.percona.com/downloads/percona-monitoring-plugins/1.1.6/percona-monitoring-plugins-{{ cacti_plugin_version }}.tar.gz"
 cacti:
     db: cacti
     user: cactiuser
