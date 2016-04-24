@@ -13,3 +13,6 @@ git --version
 git log
 git clone
 git show HEAD
+git config --global credential.helper cache
+git config --global credential.helper 'cache --timeout=3600'
+git config --global --unset credential.helper
