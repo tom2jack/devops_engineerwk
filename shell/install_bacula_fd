@@ -1,5 +1,5 @@
 #!/bin/bash
-yum -y install zlib zlib-devel openssl openssl-devel MariaDB-devel mysql-devel
+yum -y install zlib zlib-devel openssl openssl-devel MariaDB-devel mysql-devel gcc gcc-c++
 cd /tmp
 wget http://downloads.sourceforge.net/project/bacula/bacula/7.4.0/bacula-7.4.0.tar.gz
 
