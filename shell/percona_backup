@@ -10,7 +10,7 @@ root=${1:-root}
 pass=${2:-pass}
 host=${3:-"127.0.0.1"}
 engine=${4:-innodb}
-ssh_host=${5:-somehost}
+ssh_host_list=${5:-somehost}
 parallel=${6:-1}
 backup_output=${7:-"."}
 log=${8:-"/tmp/backup.log"}
@@ -29,5 +29,7 @@ status=$?
 if [ $status -eq 0 ]; then
     recent_backup=$(grep "created in directory" $log | sed -nr "s/.*directory '([^']*)'.*/\1/p")
     echo "RECENT BACKUP: $recent_backup"
-    rsync -avzP -e "ssh -p $ssh_port" $recent_backup  $ssh_user@$ssh_host:$ssh_dir
+    for ssh_host in $ssh_host_list; do
+        rsync -avzP -e "ssh -p $ssh_port" $recent_backup  $ssh_user@$ssh_host:$ssh_dir
+    done
 fi
