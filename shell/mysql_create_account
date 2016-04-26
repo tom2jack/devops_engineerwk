@@ -8,5 +8,7 @@ host=${6:-host}
 default_privileges="index, create temporary tables, create view, show view, create routine, alter routine, trigger, delete, insert, select, update, execute"
 
 mysql -u $root -p"$root_pass" -Ane "create database if not exists $db;"
-mysql -u $root -p"$root_pass" -Ane "grant $default_privileges on \`$db\`.* to '$user'@'$host' identified by '$user_pass';"
-mysql -u $root -p"$root_pass" -Ane "flush privileges;"
+for host_item in $host; do
+    mysql -u $root -p"$root_pass" -Ane "grant $default_privileges on \`$db\`.* to '$user'@'$host_item' identified by '$user_pass';"
+    mysql -u $root -p"$root_pass" -Ane "flush privileges;"
+done
