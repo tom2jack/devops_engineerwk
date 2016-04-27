@@ -2,6 +2,7 @@
 
 user_name=root
 user_password="YOUR ROOT PASSWORD"
+backup_name="YOUR BACKUP NAME"
 host="127.0.0.1"
 parallel=4
 backup_output="/data/local-backup"
@@ -27,11 +28,25 @@ function do_backup () {
     #echo "galera_param=$galera_param.myisam_param=$myisam_param."
     innobackupex  --user=${user_name} --password=${user_password} --host=${host} ${galera_param} --parallel=${parallel} ${myisam_param} ${backup_output} &>> ${log}
 }
+
+function do_mv_backup () {
+    recent_backup=$(grep "created in directory" ${log} | sed -nr "s/.*directory '([^']*)'.*/\1/p")
+    echo "RECENT_BACKUP=$recent_backup." >> ${log}
+    mv ${recent_backup} ${backup_output}/mysql-${backup_name}
+}
+
+which innobackupex &> /dev/null
+if [ ! $? -eq 0 ]; then
+    echo "You must install percona-xtrabackup"
+    exit -1
+fi
+
 (
 # Wait for lock on /var/lock/.myscript.lock (fd 200) for 10 seconds
 flock -x -w 10 200 || exit 1
     do_rm_backup
     # DEPEND YOUR DB, CUSTOMIZE THIS COMMAND
     do_backup innodb true
+    do_mv_backup
 ) 200>/var/lock/.mysql_backup.lock
 
