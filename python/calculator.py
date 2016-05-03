@@ -1,4 +1,5 @@
 import math as m
+import traceback
 
 def sum (a, b):
     return a+b
@@ -55,48 +56,49 @@ while choice != 12:
     try:
         choice = menu()
         if choice == 1:
-            num1 = int(raw_input("Num 1 = "))
-            num2 = int(raw_input("Num 2 = "))
-            print "Result = %d" % sum(num1, num2)
+            num1 = input("Num 1 = ")
+            num2 = input("Num 2 = ")
+            print "{} + {} = {}".format(num1, num2, sum(num1,num2))
         elif choice == 2:
-            num1 = int(raw_input("Num 1 = "))
-            num2 = int(raw_input("Num 2 = "))
-            print "Result = %d" % multiply(num1, num2)
+            num1 = input("Num 1 = ")
+            num2 = input("Num 2 = ")
+            print "{} * {} = {}".format(num1, num2, multiply(num1, num2))
         elif choice == 3:
-            num1 = int(raw_input("Num 1 = "))
-            num2 = int(raw_input("Num 2 = "))
-            print "Result = %d" % substract(num1, num2)
+            num1 = input("Num 1 = ")
+            num2 = input("Num 2 = ")
+            print "{} - {} = {}".format(num1, num2, substract(num1, num2))
         elif choice == 4:
-            num1 = int(raw_input("Num 1 = "))
-            num2 = int(raw_input("Num 2 = "))
-            print "Result = %.2f" % divide(num1, num2)
+            num1 = input("Num 1 = ")
+            num2 = input("Num 2 = ")
+            print "{} / {} = {}".format(num1, num2, divide(num1, num2))
         elif choice == 5:
-            num1 = int(raw_input("Num 1 = "))
-            num2 = int(raw_input("Num 2 = "))
-            print "Result = %d" % mod(num1, num2)
+            num1 = input("Num 1 = ")
+            num2 = input("Num 2 = ")
+            print "{} % {} = {}".format(num1, num2, mod(num1, num2))
         elif choice == 6:
-            num1 = int(raw_input("Num 1 = "))
-            print "Result = %f" % exp(num1)
+            num1 = input("Num 1 = ")
+            print "exp({}) = {}".format(num1, exp(num1))
         elif choice == 7:
-            num1 = int(raw_input("Num 1 = "))
-            print "Result = %f" % sqrt(num1)
+            num1 = input("Num 1 = ")
+            print "sqrt({}) = {}".format(num1, sqrt(num1))
         elif choice == 8:
-            num1 = int(raw_input("Num 1 = "))
-            print "Result = %f" % sin(num1)
+            num1 = input("Num 1 = ")
+            print "sin({}) = {}".format(num1, sin(num1))
         elif choice == 9:
-            num1 = int(raw_input("Num 1 = "))
-            print "Result = %f" % cos(num1)
+            num1 = input("Num 1 = ")
+            print "cos({}) = {}".format(num1, cos(num1))
         elif choice == 10:
-            num1 = int(raw_input("Num 1 = "))
-            print "Result = %f" % tan(num1)
+            num1 = input("Num 1 = ")
+            print "tan({}) = {}".format(num1, tan(num1))
         elif choice == 11:
-            print "Pi = %f" % getPi()
+            print "Pi = {}".format(getPi())
         elif choice == 12:
             print "Bye bye, see you again"
         else:
             print "Give me an number 1/2/3/4/5/6/7/8/9/10/11/12"
     except:
         print "Give me a valid number"
+        traceback.print_exc()
         
 
 
