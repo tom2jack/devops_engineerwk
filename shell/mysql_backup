@@ -20,7 +20,7 @@ function do_backup () {
 
     #echo "engine=$engine, use_galera=$use_galera"
     if [ $use_galera == "false" ]; then
-        galera_pram=""
+        galera_param=""
     fi
     if [ $engine == "innodb" ]; then
         myisam_param=""
