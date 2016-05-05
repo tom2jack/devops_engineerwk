@@ -1,0 +1,12 @@
+#!/bin/bash
+
+user=root
+pass="YOUR ROOT PASSWORD"
+host="YOUR HOST"
+port=3306
+backup_name="YOUR BACKUP NAME"
+log=/data/mysqldumper.log
+out="/data/local-backup/mysql-${backup_name}"
+
+rm -rfv ${out} &> ${log}
+mysqldump -u ${user}  -p"${pass}" -h ${host} -P ${port} --single-transaction --routines --triggers --events --add-drop-database --add-drop-table --all-databases --master-data=2 --extended-insert --quick --log-error=${log} > ${out}

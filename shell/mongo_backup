@@ -19,7 +19,7 @@ if [ ! $? -eq 0 ]; then
     exit -1
 fi
 
-rm -rf ${out}
+rm -rfv ${out} &> ${log}
 
 if [[ ! $useRep == "true" ]]; then
     oplog=""
@@ -34,4 +34,4 @@ else
     fi
 fi
 
-mongodump -v  ${oplog} ${dbpath} ${connection_str} --out ${out} &> ${log}
+mongodump -v  ${oplog} ${dbpath} ${connection_str} --out ${out} &>> ${log}
