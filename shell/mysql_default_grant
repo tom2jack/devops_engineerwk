@@ -34,7 +34,7 @@ user_list=$(mysql -u $root -p"$pass" -e "select concat(char(39), user, char(39),
 
 for user in $user_list; do
         echo "username=$user"
-        if [[ $user == *"root"* ]] || [[ $user == *"haproxyUser"* ]] || [[ $user == *"galera_user"* ]] || [[ $user == *"appota_repl"* ]]; then
+        if [[ $user == *"root"* ]] || [[ $user == *"haproxyUser"* ]] || [[ $user == *"galera_user"* ]] || [[ $user == *"replication_user"* ]]; then
             continue
         fi
         db_list=$(mysql -u $root -p"$pass" -e "show grants for $user" | grep -i -E '(drop|alter,|create,|alter on|create on|with grant option|all privileges on)' | sed -n 's/.*ON\(.*\)TO.*/\1/p')
