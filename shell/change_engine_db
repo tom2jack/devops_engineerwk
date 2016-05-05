@@ -1,0 +1,16 @@
+#!/bin/bash
+db_tbl_list="db1.tbl1 db2.tbl2 db3.tbl3"
+
+function doIt (){
+        db=$1
+        tbl=$2
+        pt-online-schema-change --user=root --host=localhost --password=pass --alter "ENGINE=InnoDB" D=$db,t=$tbl --execute 
+}
+
+for db_tbl in $db_tbl_list; do
+        db=$(echo $db_tbl | awk -F "." '{print $1}')
+        tbl=$(echo $db_tbl | awk -F "." '{print $2}')
+        echo "db=$db,tbl=$tbl."
+        doIt $db $tbl
+done
+
