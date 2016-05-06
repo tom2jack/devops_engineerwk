@@ -1,0 +1,56 @@
+#!/bin/bash
+
+statements=/tmp/statements.sql
+
+echo -n "Enter binlog path: "
+read binlog_path
+
+echo -n "Enter start binlog: "
+read start_binlog
+
+echo -n "Enter start pos: "
+read start_pos
+
+echo -n "Enter stop binlog: "
+read stop_binlog
+
+echo -n "Enter stop pos: "
+read stop_pos
+
+function convert_number_to_binlog_id () {
+        number=$1
+        if [[ $number -lt 10 ]]; then
+                echo "00000$number"
+        elif [[ $number -lt 100 ]]; then
+                echo "0000$number"
+        elif [[ $number -lt 1000 ]]; then
+                echo "000$number"
+        elif [[ $number -lt 10000 ]]; then
+                echo "00$number"
+        elif [[ $number -lt 100000 ]]; then
+                echo "0$number"
+        else
+                echo "$number"  
+        fi
+}
+echo "" > ${statements}
+base=$(echo $start_binlog | awk -F "." '{print $1}')
+start=$(($(echo $start_binlog | awk -F "." '{print $2}')))
+stop=$(($(echo $stop_binlog | awk -F "." '{print $2}')))
+step=1
+for (( step=start; step <=stop; ++step )); do
+        echo "step=$step"
+        binlog_id=$(convert_number_to_binlog_id $step)
+        echo "binlog_id=$binlog_id"
+        if [[ $step -eq $start ]]; then
+                echo "1"
+                mysqlbinlog --start-position=${start_pos} --base64-output=auto "${binlog_path}/${base}.${binlog_id}" >> ${statements}
+       debug2: channel 0: window 999331 sent adjust 49245
+                echo "2"
+                mysqlbinlog --stop-position=${stop_pos} --base64-output=auto "${binlog_path}/${base}.${binlog_id}" >> ${statements}
+        else
+                echo "3"
+                mysqlbinlog  --base64-output=auto "${binlog_path}/${base}.${binlog_id}" >> ${statements}
+        fi
+done
+
