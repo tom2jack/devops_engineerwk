@@ -1,0 +1,25 @@
+#!/bin/bash
+### Origin code from https://gist.github.com/paulrosania/2883869 ###
+### I use this code in my context
+USERNAME=root
+PASSWORD="YOUR ROOT PASS"
+HOST=127.0.0.1
+PORT=3306
+
+TIMEOUT=10   #
+TARGET_USERS="YOUR USER LIST"
+
+function tracking_long_query() {
+    for target_user in $TARGET_USERS; do
+        MYSQL="mysql -u $USERNAME --password=$PASSWORD -h $HOST -P $PORT -B"
+        $MYSQL -Ane 'SHOW FULL PROCESSLIST' | cut -f 1,2,6 | awk '{ if ($3 > $TIMEOUT && $2 == $target_user) print "KILL " $1 ";" }'
+    done
+}
+
+while true; do
+    tracking_long_query
+    sleep 15
+done
+
+#running:
+#nohup /usr/local/bin/kill_long_query >> /var/log/kill_long_query.log &
