@@ -1,0 +1,29 @@
+#!/bin/bash
+
+user=root
+pass="YOUR ROOT PASS"
+host="127.0.0.1"
+port=3306
+backup_name="YOUR BACKUP NAME"
+log=/data/mysqldumper.log
+out="/data/local-backup/mysql-${backup_name}"
+db_list="YOUR DB LIST"
+email_list="fake1@gmail.com,fake2@gmail.com"
+mail_sender="YOUR MAIL SENDER"
+
+function dump(){
+    engine=$1
+    if [[ $engine == "innodb" ]]; then
+       mysqldump -u ${user}  -p"${pass}" -h ${host} -P ${port} --single-transaction --routines --triggers --events --add-drop-database --add-drop-table --databases ${db_list} --extended-insert --quick --log-error=${log} --master-data=2 > ${out}
+    else
+       mysqldump -u ${user}  -p"${pass}" -h ${host} -P ${port} --lock-all-tables --routines --triggers --events --add-drop-database --add-drop-table --databases ${db_list} --extended-insert --quick --log-error=${log} > ${out}
+    fi
+    status=$?
+    inter=$(route -n | grep "UG" | awk '{print $8}' | sort -n | uniq)
+    ip=$(ip a | grep inet | grep $inter | awk '{print $2}' | sed -e 's/\/.*$//')
+    [ ! $status -eq 0 ] && echo "Backup catalog ERROR !" | mail -r ${mail_sender} -s "Backup Error at server with ip=${ip} and hostname=`hostname`" ${email_list}
+}
+
+rm -rfv ${out} &> ${log}
+
+dump innodb

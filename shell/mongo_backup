@@ -5,13 +5,16 @@ pass=""
 host=127.0.0.1
 port=38128
 datadir=/data/lib/mongo
-out=/data/local-backup/mongo-sopcast
+backup_name="YOUR BACKUP NAME"
+out="/data/local-backup/mongo-${backup_name}"
 useRep=true
 isActive=true
 oplog="--oplog"
 dbpath="--dbpath ${datadir}"
 connection_str="--host ${host} --port ${port}"
 log=/var/log/mongodb/mongodump.log 
+email_list="fake1@gmail.com,fake2@gmail.com"
+mail_sender="YOUR MAIL SENDER"
 
 which mongodump > /dev/null
 if [ ! $? -eq 0 ]; then
@@ -35,3 +38,8 @@ else
 fi
 
 mongodump -v  ${oplog} ${dbpath} ${connection_str} --out ${out} &>> ${log}
+status=$?                                                                                                                                       
+inter=$(route -n | grep "UG" | awk '{print $8}' | sort -n | uniq)
+ip=$(ip a | grep inet | grep $inter | awk '{print $2}' | sed -e 's/\/.*$//')
+[ ! $status -eq 0 ] && mail -r "${mail_sender}" -s "Backup Error at server with ip=${ip} and hostname=`hostname`" ${email_list} < ${log}
+
