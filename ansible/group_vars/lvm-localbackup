@@ -1,0 +1,21 @@
+gateway: "a gateway"
+backup_output: "/backup"
+email_to_list: "mail list separated by comma"
+email_from: "localbackup@company.com"
+script_path: "/usr/local/bin"
+script_name: "lvm_backup"
+log: "/var/log/lvm_backup"
+lvm:
+  vg_name: "/dev/VGName"
+  origin_name: "data"
+  fs_type: "ext4"  
+cron_minute: 1
+cron_hour: 0
+bacula_fd_name: "Tell-Me-If-You-See-The-Line"
+bacula:
+  ip: "backup.ip"
+  domain: "backup.domain"
+  version: "7.4.0"
+  download: "http://downloads.sourceforge.net/project/bacula/bacula/7.4.0/bacula-7.4.0.tar.gz"
+  fd_password: "fd_passwd"
+  mon_password: "mon_passwd"

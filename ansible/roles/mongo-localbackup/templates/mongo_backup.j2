@@ -1,0 +1,59 @@
+#!/bin/bash
+
+user_name="{{ user_name }}"
+user_password="{{ user_password }}"
+host="{{ host }}"
+port={{ port }}
+datadir={{ mongo.datadir }}
+backup_name={{ backup_name }}
+backup_output={{ backup_output }}
+out="${backup_output}/mongo-${backup_name}"
+useRep={{ mongo.useRep }}
+isActive={{ mongo.isActive }}
+oplog="{{ mongo.oplog_param }}"
+dbpath="--dbpath ${datadir}"
+connection_str="--host ${host} --port ${port}"
+log={{ log }}
+temp_log={{ temp_log }}
+email_list="{{ email_to_list }}"
+mail_sender="{{ email_from }}"
+
+export PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
+
+function do_rm_backup() {
+    rm -rvf ${backup_output}/* &> ${temp_log}
+}
+
+function do_notify_on_error() {
+    status=$1
+    inter=$(route -n | grep "UG" | awk '{print $8}' | sort -n | uniq)
+    ip=$(ip a | grep inet | grep $inter | awk '{print $2}' | sed -e 's/\/.*$//')
+    [ ! $status -eq 0 ] && mail -r ${mail_sender} -s "Backup Error at server with ip=${ip} and hostname=`hostname`" ${email_list} < ${temp_log}
+}
+
+which mongodump > /dev/null
+if [ ! $? -eq 0 ]; then
+    echo "You must install mongodump"
+    exit -1
+fi
+
+do_rm_backup 
+
+if [[ ! $useRep == "true" ]]; then
+    oplog=""
+fi
+
+if [[ ! $isActive == "true" ]]; then
+    connection_str=""
+else
+    dbpath=""
+    if [[ ! -z ${user_name} ]] && [[ ! -z ${user_password} ]]; then
+        connection_str="${connection_str} --username ${user_name} --password ${user_password}"
+    fi
+fi
+
+mongodump -v  ${oplog} ${dbpath} ${connection_str} --out ${out} &>> ${temp_log}
+do_notify_on_error $?
+cat ${temp_log} >> ${log}
+echo "========================= SAVED LOG at `date`=============" >> ${log}
+

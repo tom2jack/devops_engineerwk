@@ -1,0 +1,65 @@
+#!/bin/bash
+
+user_name={{ user_name }}
+user_password={{ user_password }}
+host={{ host }}
+port={{ port }}
+backup_name="{{ backup_name }}"
+log="{{ log }}"
+backup_output="{{ backup_output }}"
+out="{{ backup_output }}/mysql-${backup_name}"
+out_account="{{ backup_output }}/mysql-${backup_name}.account"
+email_list="{{ email_to_list }}"
+mail_sender="{{ email_from }}"
+mysqldump_innodb_param="{{ mysqldump.innodb_param }}"
+mysqldump_myisam_param="{{ mysqldump.myisam_param }}"
+mysqldump_param="${mysqldump_innodb_param}"
+useRep={{ useRep }}
+export PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
+
+function notify_mail_on_error() {
+    status=$1
+    inter=$(route -n | grep "UG" | awk '{print $8}' | sort -n | uniq)
+    ip=$(ip a | grep inet | grep $inter | awk '{print $2}' | sed -e 's/\/.*$//')
+    [ ! $status -eq 0 ] && mail -r "localbackup@appota.com" -s "Backup Error at server with ip=${ip} and hostname=`hostname`" dungnm.app@gmail.com,quydo.daica@gmail.com,khanhpt@gsm.vn,johnie.dip@gmail.com < ${log}
+}
+
+function do_rm_backup() {
+    rm -rvf ${backup_output}/* &> ${log}
+}
+
+function get_db_list() {
+    sql="SELECT schema_name FROM information_schema.schemata WHERE schema_name NOT IN ('mysql','performance_schema','information_schema');"
+    db_list=$(mysql -u ${user_name} -p"${user_password}" -h ${host} -P ${port} -Ane "${sql}" | grep -v "schema_name")
+    echo ${db_list}
+}
+
+function dump_account() {
+    user_list=$(mysql -u "${user_name}" -p"${user_password}" -e "select concat(char(39), user, char(39), '@', char(39), host, char(39)) as user_host from mysql.user" | grep -v "user_host")
+    echo "" > ${out_account}
+    echo "" > ${out_account}.temp
+    for item in $user_list; do
+        mysql -u "${user_name}" -p"${user_password}" -e "show grants for $item" | grep -v "Grants for" >> ${out_account}.temp
+    done
+    sed 's/$/;/' ${out_account}.temp > ${out_account}
+}
+
+function dump(){
+    engine=$1
+    db_list=$2
+    if [[ $engine == "innodb" ]]; then
+       mysqldump_param=${mysqldump_innodb_param}
+    else
+       mysqldump_param=${mysqldump_myisam_param}
+    fi
+    if [[ $useRep == "true" ]]; then
+       mysqldump_param="${mysqldump_param} --master-data=2"
+    fi
+    mysqldump -u ${user_name}  -p"${user_password}" -h ${host} -P ${port} --databases ${db_list} ${mysqldump_param}  --log-error=${log}  > ${out}
+    status=$?
+    notify_mail_on_error $status
+}
+
+do_rm_backup && db_list=$(get_db_list) && dump innodb ${db_list}
+dump_account
+
