@@ -1,7 +1,5 @@
 #!/bin/bash
 
-rs=$(git status | grep -i "up-to-date")
-[ ! -z $rs ] && { echo "UP TO DATE"; exit -1; }
 git add --all ~/system-administrator
 git commit -m "modified"
 git push -u origin master
