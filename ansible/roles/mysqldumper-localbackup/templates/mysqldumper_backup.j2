@@ -21,7 +21,7 @@ function notify_mail_on_error() {
     status=$1
     inter=$(route -n | grep "UG" | awk '{print $8}' | sort -n | uniq)
     ip=$(ip a | grep inet | grep $inter | awk '{print $2}' | sed -e 's/\/.*$//')
-    [ ! $status -eq 0 ] && mail -r "localbackup@appota.com" -s "Backup Error at server with ip=${ip} and hostname=`hostname`" dungnm.app@gmail.com,quydo.daica@gmail.com,khanhpt@gsm.vn,johnie.dip@gmail.com < ${log}
+    [ ! $status -eq 0 ] && mail -r ${mail_sender} -s "Backup Error at server with ip=${ip} and hostname=`hostname`" ${email_list} < ${log}
 }
 
 function do_rm_backup() {
@@ -60,6 +60,8 @@ function dump(){
     notify_mail_on_error $status
 }
 
-do_rm_backup && db_list=$(get_db_list) && dump innodb ${db_list}
+do_rm_backup
+route add default gw {{ gateway }} &>> ${log}
+db_list=$(get_db_list) && dump innodb ${db_list}
 dump_account
 

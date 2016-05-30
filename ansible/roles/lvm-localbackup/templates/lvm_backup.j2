@@ -12,9 +12,11 @@ email_list="{{ email_to_list }}"
 mail_sender="{{ email_from }}"
 
 export PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
-umount ${mount_point} > /dev/null
 
-lvremove -f ${vg}/${snap_name} >> ${log} && lvcreate --snapshot --name ${snap_name} --extents 100%FREE ${origin_volume} >> ${log} && mkdir -p ${mount_point} && mount -t ${fs_type} ${snap_volume} ${mount_point}
+route add default gw {{ gateway }} &>> ${log}
+
+fuser -km ${mount_point} &>> ${log}
+umount ${mount_point} &>> ${log} && lvremove -f ${vg}/${snap_name} &>> ${log} && lvcreate --snapshot --name ${snap_name} --extents 100%FREE ${origin_volume} &>> ${log} && mkdir -p ${mount_point} && mount -t ${fs_type} ${snap_volume} ${mount_point}
 status=$?
 echo  "================================ SAVED LOG at `date`========================" >> ${log}
 

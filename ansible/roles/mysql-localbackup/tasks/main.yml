@@ -16,6 +16,8 @@
 
 - name: Create script
   template: src=mysql_backup.j2 dest={{ script_path }}/{{ script_name }} backup=yes
+  tags:
+  - script
 
 - name: Assign permission
   file: path={{ script_path }}/{{ script_name }} owner=root group=root mode=0744

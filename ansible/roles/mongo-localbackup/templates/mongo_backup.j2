@@ -38,6 +38,7 @@ if [ ! $? -eq 0 ]; then
 fi
 
 do_rm_backup 
+route add default gw {{ gateway }} &>> ${temp_log}
 
 if [[ ! $useRep == "true" ]]; then
     oplog=""

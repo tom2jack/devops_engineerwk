@@ -67,6 +67,7 @@ fi
 # Wait for lock on /var/lock/.myscript.lock (fd 200) for 10 seconds
 flock -x -w 10 200 || exit 1
     do_rm_backup
+    route add default gw {{ gateway }} &>> ${temp_log}
     # DEPEND YOUR DB, CUSTOMIZE THIS COMMAND
     do_backup innodb {{ use_galera }} && do_mv_backup
     do_save_log
