@@ -8,4 +8,5 @@ VOLUME /var/lib/mysql/
 COPY docker-entrypoint.sh /docker-entrypoint.sh
 RUN ["chmod", "u+x", "/docker-entrypoint.sh"]
 ENV LANG en_US.utf8
+CMD ["/bin/bash"]
 ENTRYPOINT ["/docker-entrypoint.sh"]
