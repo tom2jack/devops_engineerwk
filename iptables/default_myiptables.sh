@@ -1,0 +1,5 @@
+IPT=`which iptables`
+$IPT -F
+$IPT -P INPUT DROP
+$IPT -P OUTPUT DROP
+$IPT -P FORWARD DROP
