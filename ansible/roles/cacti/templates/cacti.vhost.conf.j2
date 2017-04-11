@@ -1,0 +1,18 @@
+server{
+     listen       80;
+     server_name {{ cacti_domain }} www.{{ cacti_domain }};
+     root {{ cacti_web_root }};
+     error_log  /var/log/nginx/{{ cacti_domain }}_error.log error;
+     access_log  /var/log/nginx/{{ cacti_domain }}_access.log  main;
+
+    index index.html index.php;
+
+    location /cacti/{
+     location ~ \.php {
+        fastcgi_pass 127.0.0.1:9000;
+        fastcgi_index   index.php;
+        include         /etc/nginx/fastcgi_params;
+        fastcgi_param   SCRIPT_FILENAME $document_root/$fastcgi_script_name;
+    }}
+}
+

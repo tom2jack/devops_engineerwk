@@ -1,0 +1,5 @@
+#!/bin/bash
+
+git add --all ~/system-administrator
+git commit -m "modified"
+git push -u origin master

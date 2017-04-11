@@ -1,0 +1,14 @@
+service {{ xinetd_service_name }}
+{
+flags = REUSE
+socket_type = stream
+port = {{ xinetd_port }}
+wait = no
+user = {{ nobody_user }}
+server = {{ script_name }}
+log_on_failure += USERID
+disable = no
+only_from = 0.0.0.0/0
+per_source = UNLIMITED
+}
+

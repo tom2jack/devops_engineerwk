@@ -1,0 +1,35 @@
+#!/bin/bash
+
+which innobackupex &> /dev/null
+if [ ! $? -eq 0 ]; then
+    echo "You must install percona-xtrabackup"
+    exit -1
+fi
+
+root=${1:-root}
+pass=${2:-pass}
+host=${3:-"127.0.0.1"}
+engine=${4:-innodb}
+ssh_host_list=${5:-somehost}
+parallel=${6:-1}
+backup_output=${7:-"."}
+log=${8:-"/tmp/backup.log"}
+ssh_port=${9:-1102}
+ssh_user=${10:-test}
+ssh_dir=${11:-"/home/test"}
+
+myisam_param="--lock-wait-timeout=180 --lock-wait-threshold=20 --lock-wait-query-type=all --kill-long-queries-timeout=20 --kill-long-query-type=all"
+
+if [ $engine == "innodb" ]; then
+    innobackupex  --user=${root} --password=${pass} --host=${host} --parallel=${parallel} ${backup_output} &> ${log}
+else
+    innobackupex  --user=${root} --password=${pass} --host=${host} --parallel=${parallel} ${myisam_param} ${backup_output} &> ${log}
+fi
+status=$?
+if [ $status -eq 0 ]; then
+    recent_backup=$(grep "created in directory" $log | sed -nr "s/.*directory '([^']*)'.*/\1/p")
+    echo "RECENT BACKUP: $recent_backup"
+    for ssh_host in $ssh_host_list; do
+        rsync -avzP -e "ssh -p $ssh_port" $recent_backup  $ssh_user@$ssh_host:$ssh_dir
+    done
+fi

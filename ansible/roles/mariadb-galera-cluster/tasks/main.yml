@@ -1,0 +1,6 @@
+- include: repo.yml
+- include: packages.yml
+- include: create_dir.yml
+- include: config.yml
+- include: system_tuning.yml
+- include: autostart.yml

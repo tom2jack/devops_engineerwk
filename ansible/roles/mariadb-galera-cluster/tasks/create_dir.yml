@@ -1,0 +1,8 @@
+- name: Create dir
+  file: path={{ item }} state=directory owner=mysql group=mysql
+  with_items:
+  - "{{ db_datadir }}"
+  - "{{ db_log }}"
+  - "{{ db_binlog }}"
+  - "{{ gcache.dir }}"
+  - "{{ db_tmpdir }}"

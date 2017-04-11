@@ -1,0 +1,5 @@
+db_datadir: /var/lib/mysql
+db_log: /var/log/mysqld
+db_binlog: /var/log/mysql
+db_tmpdir: "{{ db_binlog }}/tmpdir"
+mysql_user: mysql

@@ -1,0 +1,26 @@
+gateway: "gateway"
+user_name: root
+host: 127.0.0.1
+backup_output: "/data/local-backup"
+temp_log: "/var/log/mysql_backup.log.tmp"
+log: "/var/log/mysql_backup.log"
+email_to_list: "mail list"
+email_from: "localbackup@company.com"
+script_path: "/usr/local/bin"
+script_name: "mysql_backup"
+use_galera: "false"
+xtrabackup:
+  parallel: 4
+  galera_param: "--galera-info"
+  myisam_param:	"--lock-wait-timeout=180 --lock-wait-threshold=20 --lock-wait-query-type=all --kill-long-queries-timeout=20 --kill-long-query-type=all"
+  root_open_file_limit: 8192
+cron_minute: 1
+cron_hour: 0
+bacula_fd_name: "Tell-Me-If-You-See-The-Line"
+bacula:
+  ip: "bacula ip"
+  domain: "bacula domain"
+  version: "7.4.0"
+  download: "http://downloads.sourceforge.net/project/bacula/bacula/7.4.0/bacula-7.4.0.tar.gz"
+  fd_password: "bacula fd passwd"
+  mon_password: "bacula mon passwd"

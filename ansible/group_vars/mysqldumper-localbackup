@@ -1,0 +1,24 @@
+gateway: "gateway"
+user_name: root
+host: 127.0.0.1
+port: 3306
+backup_output: "/data/local-backup"
+log: "/var/log/mysqldumper_backup.log"
+email_to_list: "mail list"
+email_from: "localbackup@company.com"
+script_path: "/usr/local/bin"
+script_name: "mysqldumper_backup"
+useRep: "true"
+mysqldump:
+  innodb_param: "--single-transaction --routines --triggers --events --add-drop-database --add-drop-table --extended-insert --quick"
+  myisam_param: "--lock-all-tables --routines --triggers --events --add-drop-database --add-drop-table --extended-insert --quick"
+cron_minute: 1
+cron_hour: 0
+bacula_fd_name: "Tell-Me-If-You-See-The-Line"
+bacula:
+  ip: "bacula ip"
+  domain: "bacula domain"
+  version: "7.4.0"
+  download: "http://downloads.sourceforge.net/project/bacula/bacula/7.4.0/bacula-7.4.0.tar.gz"
+  fd_password: "fd passwd"
+  mon_password: "mon passwd"

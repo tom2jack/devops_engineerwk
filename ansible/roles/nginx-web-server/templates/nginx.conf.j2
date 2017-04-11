@@ -1,0 +1,47 @@
+user              {{ nginx_user }};
+worker_processes  {{ nginx_worker_process }};
+pid        /var/run/nginx.pid;
+
+
+error_log {{ nginx_error_log }};
+
+events {
+    worker_connections  {{ nginx_worker_connections }};
+}
+
+
+http {
+    include       /etc/nginx/mime.types;
+    default_type  application/octet-stream;
+
+    log_format  main  '$remote_addr - $remote_user [$time_local] "$request" '
+                      '$status $body_bytes_sent "$http_referer" '
+                      '"$http_user_agent" "$http_x_forwarded_for"';
+
+    access_log  {{ nginx_access_log }};
+    error_log {{ nginx_debug_log }};
+
+    sendfile        {{  nginx_sendfile }};
+    sendfile_max_chunk {{ nginx_sendfile_max_chunk }};
+    tcp_nopush {{ nginx_tcp_nopush }};
+    tcp_nodelay {{ nginx_tcp_nodelay }};
+    keepalive_timeout {{ nginx_keepalive_timeout }};
+
+{% if proxy is defined and  proxy == 1 %}
+{% for upstream in nginx_upstreams %}
+    upstream {{ upstream.name }} {
+{% if upstream.load_balancing_method is defined %}
+    	{{ upstream.load_balancing_method }};
+{% endif %}
+{% for server in upstream.servers %}
+	server {{ server }};
+{% endfor %}
+    }
+
+{% endfor %}
+{% endif %}
+    include {{ nginx_conf_path }}/*.conf;
+{% if nginx_conf_path != nginx_vhost_path %}
+    include {{ nginx_vhost_path }}/*;
+{% endif %}
+}

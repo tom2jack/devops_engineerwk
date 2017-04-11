@@ -1,0 +1,9 @@
+galera:
+  user_name: user
+  password: secret
+  cluster_name: TestCluster
+gcache:
+  size: 1024M
+  name: /var/galera/gcache
+  dir: /var/galera
+wsrep_sst_method: xtrabackup-v2

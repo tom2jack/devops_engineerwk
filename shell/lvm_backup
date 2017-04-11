@@ -1,0 +1,23 @@
+#!/bin/bash
+
+snap_name="YOUR SNAP NAME"
+vg=/dev/"YOUR VOLGROUP NAME"
+origin_volume=${vg}/data
+snap_volume=${vg}/${snap_name}
+fs_type=ext4
+mount_point=/backup
+email_list="fake1@gmail.com,fake2@gmail.com"
+mail_sender="YOUR MAIL SENDER"
+
+
+function do_notifiy_on_error (){
+    status=$1
+    inter=$(route -n | grep "UG" | awk '{print $8}' | sort -n | uniq)
+    ip=$(ip a | grep inet | grep $inter | awk '{print $2}' | sed -e 's/\/.*$//')
+    [ ! $status -eq 0 ] &&  echo "LVM Backup ERROR!" | mail -r "${mail_sender}" -s "Backup Error at server with ip=${ip} and hostname=`hostname`" ${email_list}
+}
+
+umount ${mount_point} > /dev/null
+yes|lvremove ${vg}/${snap_name} && lvcreate --snapshot --name ${snap_name} --extents 100%FREE ${origin_volume} && mkdir -p ${mount_point} && mount -t ${fs_type} ${snap_volume} ${mount_point}
+status=$?
+do_notify_on_error $status

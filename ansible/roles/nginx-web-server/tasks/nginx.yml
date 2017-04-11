@@ -1,0 +1,4 @@
+- name: Create config file
+  template: src=nginx.conf.j2 dest={{ nginx_default_conf }} backup=yes
+  #notify: reload nginx
+  tags: "create nginx.conf"

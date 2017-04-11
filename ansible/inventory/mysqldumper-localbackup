@@ -1,0 +1,3 @@
+[mysqldumper-localbackup]
+X.X.X.X ansible_ssh_port=<ssh port> user_password="root mysql pass" backup_name="backup_name1" useRep="false"
+Y.Y.Y.Y ansible_ssh_port=22 user_password="root mysql pass" backup_name="backup_name2" backup_output="other backup output" host="remote_host" useRep="true" bacula_fd_name="fd_name2"

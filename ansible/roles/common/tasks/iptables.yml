@@ -1,0 +1,5 @@
+- name: config simple iptables
+  template: src=iptables.conf.j2 dest=/etc/sysconfig/iptables backup=yes
+  notify: start iptables
+  tags: 
+  - iptables

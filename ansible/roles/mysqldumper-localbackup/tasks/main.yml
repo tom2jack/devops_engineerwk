@@ -1,0 +1,17 @@
+- name: Add route
+  command: route add default gw {{ gateway }}
+  ignore_errors: yes
+
+- name: Create script
+  template: src=mysqldumper_backup.j2 dest={{ script_path }}/{{ script_name }} backup=yes
+  tags:
+  - script
+
+- name: Assign permission
+  file: path={{ script_path }}/{{ script_name }} owner=root group=root mode=0744
+
+- name: Create local backup dir
+  file: path={{ backup_output }} owner=root group=root state=directory mode=0755
+
+- name: Add crontab
+  cron: name="backup mysqldumper {{ backup_name }}" minute="{{ cron_minute }}" hour="{{ cron_hour }}" job={{ script_path }}/{{ script_name }}

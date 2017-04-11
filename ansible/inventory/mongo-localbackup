@@ -1,0 +1,2 @@
+[mongo-localbackup]
+X.X.X.X ansible_ssh_port=22 backup_name="backup_name" backup_output="other_output" host="remote_host" cron_minute=30 cron_hour=13 bacula_fd_name="fd_name"

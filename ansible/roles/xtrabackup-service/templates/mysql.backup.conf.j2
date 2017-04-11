@@ -1,0 +1,8 @@
+#!/bin/bash
+(
+# Wait for lock on /var/lock/.myscript.lock (fd 200) for 10 seconds
+flock -x -w 10 200 || exit 1
+ulimit -n 4096
+{{ xtrabackup.binary }}  --user={{ root_user }} --password={{ root_password }} --host={{ mysql_host }} --port={{ mysql_port }} --parallel={{ xtrabackup.parallel }} --lock-wait-timeout={{ xtrabackup.lock_wait_timeout }} --lock-wait-threshold={{ xtrabackup.lock_wait_threshold }} --lock-wait-query-type={{ xtrabackup.lock_wait_query_type }} --kill-long-queries-timeout={{ xtrabackup.kill_long_queries_timeout }} --kill-long-query-type={{ xtrabackup.kill_long_query_type }} {{ destination }} 2> {{ log }}
+
+) 200>/var/lock/.{{ mysql_backup_script }}.lock

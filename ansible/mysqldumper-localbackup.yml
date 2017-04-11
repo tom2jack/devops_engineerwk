@@ -1,0 +1,4 @@
+- hosts: mysqldumper-localbackup
+  roles:
+  - mysqldumper-localbackup
+  - install-bacula-fd

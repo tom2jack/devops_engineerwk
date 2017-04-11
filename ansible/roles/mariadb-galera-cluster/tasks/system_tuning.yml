@@ -1,0 +1,8 @@
+- name: set vm.swappiness in sysctl.conf
+  sysctl: name=vm.swappiness value=10 state=present sysctl_set=yes reload=yes ignoreerrors=yes
+
+- name: change ulimit
+  copy: src=mysql.ulimit.j2 dest=/etc/security/limits.d/95-mysql.conf
+
+- name: config logrotate
+  template: src=maria.logrotate.j2 dest=/etc/logrotate.d/mysql backup=yes

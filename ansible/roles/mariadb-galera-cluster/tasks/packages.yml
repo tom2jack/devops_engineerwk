@@ -1,0 +1,24 @@
+- name: Clean yum
+  command: yum clean all
+
+- name: Install MariaDB lastest package
+  yum: name={{ item }} state=latest update_cache=yes
+  with_items:
+  - MariaDB-client
+  - MariaDB-server
+  - galera
+  - MariaDB-devel
+  - python-setuptools
+#  notify: start mariadb as standalone
+
+- name: Install percona xtrabackup
+  yum: name="percona-xtrabackup" state=latest update_cache=true
+
+- name: Install percona toolkit
+  yum: name="percona-toolkit" state=latest update_cache=true
+
+- name: Install socat streamer
+  yum: name="socat" state=latest update_cache=true
+
+- name: Install MySQL-python lib
+  easy_install: name="MySQL-python"

@@ -1,0 +1,48 @@
+#!/bin/sh
+# network_example        This shell script takes care of starting and stopping
+# chkconfig: - 10 12
+# description: bacula-fd service is ... \
+# tcp socket listening on 9102
+# Source function library.
+prog_name="bacula-fd"
+prog="/usr/local/bin/bacula/bin/bacula-ctl-fd"
+lockfile="/var/lock/subsys/$prog_name"
+start() {
+	if [ -f $lockfile ]; then
+                echo "Lock file is exists. Service is already running..."
+                exit 1
+        fi
+        $prog start
+        RETVAL=$?
+	echo
+	[ $RETVAL -eq 0 ] && touch $lockfile
+        return $RETVAL
+}
+stop(){
+        $prog stop
+        RETVAL=$?
+        echo
+	[ $RETVAL -eq 0 ] && rm -f $lockfile
+        return $RETVAL
+}
+status(){
+	$prog status
+        RETVAL=$?
+        echo
+        return $RETVAL
+}
+# See how we were called.
+case "$1" in
+  start)
+        start
+        ;;
+  stop)
+        stop
+        ;;
+  status)
+        status
+        ;;
+  *)
+        echo $"Usage: $0 {start|stop|status}"
+        exit 2
+esac

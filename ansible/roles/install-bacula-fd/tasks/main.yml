@@ -1,0 +1,40 @@
+- name: Copying install script
+  template: src=install_bacula_fd.j2 dest=/tmp/install_bacula_fd backup=yes
+
+- name: change mod install_bacula_fd
+  file: path=/tmp/install_bacula_fd owner=root group=root mode=0755
+
+- name: Run install_bacula_fd
+  command: /tmp/install_bacula_fd
+
+- name: Copying service script
+  template: src=init_bacula_script.j2 dest=/etc/init.d/bacula-fd backup=yes
+  tags:
+  - init
+
+- name: change mode bacula-fd
+  file: path=/etc/init.d/bacula-fd owner=root group=root mode=0755
+
+- name: auto start bacula-fd
+  service: name=bacula-fd enabled=yes
+
+- name: install ntpd
+  yum: name=ntp state=latest update_cache=true
+
+- name: auto start ntpd
+  service: name=ntpd enabled=yes
+
+- name: auto start ntpdate
+  service: name=ntpdate enabled=yes
+
+- name: restart ntpd
+  service: name=ntpd state=restarted
+
+- name: Copying config
+  template: src=config_bacula_fd.j2 dest=/usr/local/bin/bacula/bin/bacula-fd.conf backup=yes
+
+- name: started bacula-fd
+  service: name=bacula-fd state=restarted
+
+- name: Add hosts
+  lineinfile: dest=/etc/hosts line="{{ bacula.ip }} {{ bacula.domain }}" state=present backup=yes

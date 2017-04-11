@@ -1,0 +1,23 @@
+#!/bin/bash
+yum -y install zlib zlib-devel openssl openssl-devel gcc gcc-c++
+cd /tmp
+rm -rf bacula-7.4.0.tar.gz
+rm -rf bacula-7.4.0
+wget http://downloads.sourceforge.net/project/bacula/bacula/7.4.0/bacula-7.4.0.tar.gz
+
+tar xvzf bacula-7.4.0.tar.gz
+cd bacula-7.4.0
+CFLAGS="-g -O2"
+ ./configure \
+            --sbindir=/usr/local/bin/bacula/bin \
+            --sysconfdir=/usr/local/bin/bacula/bin \
+            --with-pid-dir=/usr/local/bin/bacula/bin/working \
+            --with-subsys-dir=/usr/local/bin/bacula/bin/working \
+            --enable-smartalloc \
+            --enable-client-only \
+            --with-working-dir=/usr/local/bin/bacula/bin/working
+make
+make install
+find /usr/local/bin/bacula/bin/* -maxdepth 0 | grep -v -i -E '(bacula-fd|bacula-ctl-fd|working)' | xargs rm
+/usr/local/bin/bacula/bin/bacula-ctl-fd start
+

@@ -1,0 +1,22 @@
+#!/bin/bash
+
+user=root
+pass="YOUR ROOT PASSWORD"
+host="YOUR HOST"
+port=3306
+backup_name="YOUR BACKUP NAME"
+log=/data/mysqldumper.log
+out="/data/local-backup/mysql-${backup_name}"
+
+function dump(){
+    engine=$1
+    if [[ $engine == "innodb" ]]; then
+       mysqldump -u ${user}  -p"${pass}" -h ${host} -P ${port} --single-transaction --routines --triggers --events --add-drop-database --add-drop-table --all-databases --master-data=2 --extended-insert --quick --log-error=${log} > ${out} 
+    else
+       mysqldump -u ${user}  -p"${pass}" -h ${host} -P ${port} --lock-all-tables --routines --triggers --events --add-drop-database --add-drop-table --all-databases --master-data=2 --extended-insert --quick --log-error=${log} > ${out}
+    fi
+}
+
+rm -rfv ${out} &> ${log}
+
+dump hybird

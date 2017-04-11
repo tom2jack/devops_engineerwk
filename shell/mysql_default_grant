@@ -1,0 +1,43 @@
+#!/bin/bash
+root=${1:-root}
+pass=${2:-"root pass"}
+
+function debug (){
+    msg=$1
+    echo "DEBUG:$msg"
+}
+
+function apply_default_privileges () {
+    db_list=$1
+    user=$2
+    if [[ ! -z $db_list ]]; then
+        debug "$db_list + $user"
+        if [[ $db_list == *"*.*"* ]]; then
+        debug "------------------> revoke privileges on *.* for ${user}"
+            mysql -u $root -p"$pass" -Ane "revoke all privileges on *.* from ${user};"
+            mysql -u $root -p"$pass" -Ane "revoke grant option on *.* from ${user};"
+            return
+        fi
+        for db in $db_list; do
+        debug "------------------> DB=$db"
+            mysql -u $root -p"$pass" -Ane "revoke all privileges on ${db} from ${user};"
+            mysql -u $root -p"$pass" -Ane "revoke grant option on ${db} from ${user};"
+            mysql -u $root -p"$pass" -Ane "grant index, create temporary tables, create view, show view, create routine, alter routine, trigger, delete, insert, select, update, execute on ${db} to ${user};"
+        done
+    fi
+}
+
+echo "NEN DUNG mysql_backup_user de backup thong tin tai khoan va privileges truoc khi dung..."
+sleep 5
+
+user_list=$(mysql -u $root -p"$pass" -e "select concat(char(39), user, char(39), '@', char(39), host, char(39)) as user_host from mysql.user" | grep -v "user_host");
+
+for user in $user_list; do
+        echo "username=$user"
+        if [[ $user == *"root"* ]] || [[ $user == *"haproxyUser"* ]] || [[ $user == *"galera_user"* ]] || [[ $user == *"replication_user"* ]]; then
+            continue
+        fi
+        db_list=$(mysql -u $root -p"$pass" -e "show grants for $user" | grep -i -E '(drop|alter,|create,|alter on|create on|with grant option|all privileges on)' | sed -n 's/.*ON\(.*\)TO.*/\1/p')
+        apply_default_privileges "${db_list}" "${user}"
+done
+

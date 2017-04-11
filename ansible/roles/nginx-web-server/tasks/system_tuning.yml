@@ -1,0 +1,2 @@
+- name: set net.core.somaxconn
+  sysctl: name=net.core.somaxconn value={{ nginx_backlog }} state=present sysctl_set=yes reload=yes ignoreerrors=yes

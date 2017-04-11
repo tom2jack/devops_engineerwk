@@ -1,0 +1,48 @@
+# Default  Bacula File Daemon Configuration file
+#
+#  For Bacula release 7.4.0 (16 January 2016) -- redhat
+#
+# There is not much to change here except perhaps the
+# File daemon Name to
+#
+#
+# Copyright (C) 2000-2015 Kern Sibbald
+# License: BSD 2-Clause; see file LICENSE-FOSS
+#
+
+#
+# List Directors who are permitted to contact this File daemon
+#
+Director {
+  Name = appota-backup-dir
+  Password = "{{ bacula.fd_password }}"
+}
+
+#
+# Restricted Director, used by tray-monitor to get the
+#   status of the file daemon
+#
+Director {
+  Name = appota-backup-mon
+  Password = "{{ bacula.mon_password }}"
+  Monitor = yes
+}
+
+#
+# "Global" File daemon configuration specifications
+#
+FileDaemon {                          # this is me
+  Name = {{ bacula_fd_name }}-backup-fd
+  FDport = 9102                  # where we listen for the director
+  WorkingDirectory = /usr/local/bin/bacula/bin/working
+  Pid Directory = /usr/local/bin/bacula/bin/working
+  Maximum Concurrent Jobs = 20
+# Plugin Directory = /usr/lib64
+}
+
+# Send all messages except skipped files back to Director
+Messages {
+  Name = Standard
+  director = appota-backup-dir = all, !skipped, !restored
+}
+

@@ -1,0 +1,28 @@
+- name: Clean yum
+  command: yum clean all
+
+- name: Install default packages
+  yum: name={{ item }} state=latest update_cache=true
+  with_items:
+  - gcc
+  - gcc-c++
+  - python-devel
+  - openssl-devel
+  - zlib-devel
+  - atop
+  - ioping
+  - smartmontools
+  - dmidecode
+  - sysbench
+  - fio
+  - lshw
+  - iotop
+  - iftop
+  - nethogs
+  - iptraf
+  - vim
+  - telnet
+
+- name: Install ntpd 
+  yum: name="ntp" state=latest update_cache=true
+  notify: start ntpd

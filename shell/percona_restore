@@ -1,0 +1,16 @@
+#!/bin/bash
+
+backup_dir=${1:-backup}
+data_dir=${2:-"/var/lib/mysql"}
+log=${3:-"/tmp/restore.log"}
+memory=${4:-"4G"}
+parallel=${5:-4}
+
+innobackupex --apply-log $backup_dir --use-memory=$memory &> $log
+service mysqld stop &> /dev/null
+service mysql stop &> /dev/null
+rm -rf $data_dir/*
+innobackupex --parallel=$parallel  --copy-back $backup_dir
+chown -R mysql:mysql $data_dir
+service mysqld start &> /dev/null
+service mysql start &> /dev/null

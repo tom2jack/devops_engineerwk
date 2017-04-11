@@ -1,0 +1,23 @@
+- name: Update root password
+  mysql_user: name=root host={{ item }} password={{ root_db_pass }}
+  with_items:
+  - 127.0.0.1
+  - ::1
+  - localhost
+  ignore_errors: yes
+
+- name: Remove test db
+  mysql_db: name=test state=absent login_user=root login_password={{ root_db_pass }}
+  ignore_errors: yes
+
+- name: Remove anonymous user local host
+  mysql_user: name="" state=absent login_user=root login_password={{ root_db_pass }}
+  ignore_errors: yes
+
+- name: Remove anonymous user remote host
+  mysql_user: name="" state=absent login_user=root login_password={{ root_db_pass }} host={{ ansible_nodename }}
+  ignore_errors: yes
+
+- name: Disable remote root login
+  mysql_user: name=root host={{ ansible_nodename }} state=absent login_user=root login_password={{ root_db_pass }}
+  ignore_errors: yes

@@ -1,0 +1,11 @@
+- hosts: all
+  roles:  
+  - role: common
+
+- hosts: dbservers
+  roles:
+  - role: mariadb-galera-cluster
+
+- hosts: webservers
+  roles:
+  - role: nginx-web-server       

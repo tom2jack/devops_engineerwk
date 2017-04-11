@@ -1,0 +1,27 @@
+#!/bin/bash
+
+fulltext=/root/fulltext
+which mysqlbinlog > /dev/null
+if [ ! $? -eq 0 ]; then
+        echo "You must install mysqlbinlog"
+fi
+
+echo -n "Enter mysql statement: "
+read statement
+echo -n "Enter path to binlog on this server: "
+read binlog_path
+i=0
+file_list=$(find "${binlog_path}" -type f -iname "mysql-bin.*" ! -iname "*.index")
+echo "" > ${fulltext}
+for file in $file_list; do
+        output=$(mysqlbinlog -v --base64-output=decode-rows $file | grep -i "${statement}")
+        if [[ ! -z $output ]]; then
+                (( i++ ))
+                echo "Found $statement statement in $file"
+                echo "####################### File found match $i" >> ${fulltext}
+                mysqlbinlog -v --base64-output=decode-rows $file | grep -B 10 -i "${statement}" >> ${fulltext}
+        fi
+done
+echo "Total file found match = $i"
+
+less ${fulltext}

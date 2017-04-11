@@ -1,0 +1,4 @@
+- hosts: lvm-localbackup
+  roles:
+  - lvm-localbackup
+  - install-bacula-fd

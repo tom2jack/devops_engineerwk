@@ -1,0 +1,18 @@
+git checkout -- filename
+git rm filename
+git add .
+git add --all
+git diff filename
+git commit -m "comment"
+git push -u origin master
+git pull origin master
+git remote add origin <URL.git>
+git remote -v
+git init
+git --version
+git log
+git clone
+git show HEAD
+git config --global credential.helper cache
+git config --global credential.helper 'cache --timeout=3600'
+git config --global --unset credential.helper

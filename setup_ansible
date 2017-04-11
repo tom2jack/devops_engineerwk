@@ -1,0 +1,34 @@
+Install ansible on all servers
+
+wget https://dl.fedoraproject.org/pub/epel/epel-release-latest-6.noarch.rpm
+rpm -ivh epel-release-latest-6.noarch.rpm
+yum install --enablerepo=epel ansible
+
+Pick a server for ansible server and allow it access to the remain servers via SSH based authentication
+
+On ansible server
+ssh-keygen
+Copy the content of /root/.ssh/id_rsa.pub to /root/.ssh/authorized_keys of the remain servers
+
+ssh-copy-id -i root@<IP server>
+
+chmod 600 /root/.ssh/authorized_keys
+chmod 700 /root/.ssh
+chmod 600 /root/.ssh/id_rsa
+chmod 644 /root/.ssh/id_rsa.pub
+
+Disable selinux on other servers
+
+some command for checking:
+ansible all -m ping
+ansible -m setup <HOST> ### check registered predefined var of ansible host
+ansible -m debug -a "var=hostvars[groups['dbservers'][2]]" localhost
+ansible -m debug -a "var=hostvars" localhost
+
+Dependencies:
+yum install gcc gcc-c++ python-devel MariaDB-devel openssl-devel
+easy_install MySQL-python
+
+Start:
+ansible-playbook -s dbservers.yml
+ansible-playbook -s dbservers.yml --tags "galera_user"

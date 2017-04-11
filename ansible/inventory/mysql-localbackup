@@ -1,0 +1,7 @@
+[mysql-localbackup]
+X.X.X.X user_password="root mysql pass" backup_name="backup_name1" bacula_fd_name="fd_name1"
+Y.Y.Y.Y user_password="root mysql pass" backup_name="backup_name2" bacula_fd_name="fd_name2"
+Z.Z.Z.Z user_password="root mysql pass" backup_name="backup_name3" backup_output="other_backup_output" bacula_fd_name="fd_name3"
+
+[mysql-localbackup:vars]
+ansible_ssh_port=common port

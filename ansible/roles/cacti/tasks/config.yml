@@ -1,0 +1,58 @@
+- name: config php
+  lineinfile: dest=/etc/php.ini line="{{ item }}" state=present backup=yes
+  with_items:
+  - 'date.timezone=\"Asia/Bangkok\"'
+  - "file_uploads = On"
+  - "safe_mode = Off"
+
+- name: config vhost
+  template: src=cacti.vhost.conf.j2 dest={{ cacti_vhost }} backup=yes
+
+- name: create webroot for cacti
+  file: path={{ item }} state=directory
+  with_items:
+  - "{{ cacti_web_root }}"
+
+- name: move cacti to webroot
+  command: mv {{ cacti_temp_dir }} {{ cacti_install_dir }}
+  ignore_errors: yes
+
+- name: config limits config
+  copy: src=root.ulimit.j2 dest=/etc/security/limits.d/80-root.conf
+
+- name: config snmp
+  lineinfile: dest=/etc/snmp/snmpd.conf line="rocommunity public" state=present backup=yes
+
+- name: change owner cacti web root
+  command: chown -R nginx:nginx {{ cacti_install_dir }}
+
+- name: apply permission to file in cacti web root
+  command: find {{ cacti_install_dir }} -type f -exec chmod 644 {} \;
+     
+- name: apply permission to dir in cacti web root
+  command: find {{ cacti_install_dir }} -type d -exec chmod 755 {} \;
+
+- name: create user for cacti
+  command: useradd -d {{ cacti_install_dir }} -s /sbin/nologin {{ cacti.user }}
+  ignore_errors: yes
+
+- name: change owner for some cacti data
+  command: chown -R cactiuser {{ cacti_install_dir }}/rra/ {{ cacti_install_dir }}/log/
+     
+- name: create mysql database
+  mysql_db: name={{ cacti.db }} login_user={{ mysql.user }} login_password={{ mysql.password }}  state=present  
+  tags:
+  - "create db"
+
+- name: import mysql database
+  mysql_db: name={{ cacti.db }} login_user={{ mysql.user }} login_password={{ mysql.password }}  state=import target={{ cacti_install_dir }}/cacti.sql
+  ignore_errors: yes
+
+- name: grant privileges for user
+  mysql_user: name={{ cacti.mysql_user }} password={{ cacti.mysql_pass }} login_user={{ mysql.user }} login_password={{ mysql.password }} state=present priv="{{ cacti.db }}.*:ALL" host=localhost
+
+- name: config mysql for cacti
+  template: src=cacti.mysql.conf.j2 dest={{ cacti_install_dir }}/include/config.php
+
+- name: config crontab
+  lineinfile: dest=/etc/crontab line="*/5 * * * * cactiuser /usr/bin/php {{ cacti_install_dir }}/poller.php > /dev/null 2>&1" state=present backup=yes

@@ -1,0 +1,38 @@
+#!/bin/bash
+root=${1:-root}
+pass=${2:-"root pass"}
+db_list=${3:-"db_list"}
+host_list=${4:-"host_list"}
+output=${5:-result}
+
+function convert_user_to_host () {
+   the_user=$1
+   the_password=$2
+   the_host_list=$3
+   the_db=$4
+   for the_host in $the_host_list; do
+       echo "grant index, create temporary tables, create view, show view, create routine, alter routine, trigger, delete, insert, select, update, execute on \`${the_db}\`.* to '${the_user}'@'${the_host}' identified by password '${the_password}';"  >> "${output}"
+   done
+}
+
+function get_password_of_user() {
+   the_user=$1
+   the_password=$(mysql -u $root -p"$pass" -Ane "select password from mysql.user where user='${the_user}' and password is not null limit 1" | grep -v "password")
+   status=$?
+   echo $the_password
+   return $status
+}
+
+echo "" > $output
+
+for db in $db_list; do
+echo "DB=$db"
+some_users=$(mysql -u $root -p"$pass" -Ane "select distinct user as user_items from mysql.db where db='${db}'" | grep -v "user_items")
+echo $some_users
+   for user in $some_users; do
+       echo "convert for $user..."
+       password=$(get_password_of_user "${user}")
+       [[ -z $password ]] && { echo "user ${user} has empty password on ${db}, use default passwd = bonghongthuytinh"; password="*ED600114EE82A617798C2AB207F7071EDE10D396"; }
+       convert_user_to_host "${user}" "${password}" "${host_list}" "${db}"
+   done
+done

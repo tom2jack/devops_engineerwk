@@ -1,0 +1,20 @@
+- name: create cacti plugin conf dir
+  file: path={{ cacti.plugin.conf_dir }} state=directory   
+
+- name: copy scripts/ss_get_by_ssh.php 
+  copy: src={{ cacti_plugin_temp_dir }}/cacti/scripts/{{ cacti.plugin.ssh_script }} dest={{ cacti_install_dir }}/scripts
+
+- name: copy ss_get_by_ssh.php.cnf
+  template: src=cacti.get_by_ssh.conf.j2 dest={{ cacti.plugin.conf_dir }}/{{ cacti.plugin.ssh_script }}.cnf
+
+- name: copy scripts/ss_get_mysql_stats.php
+  copy: src={{ cacti_plugin_temp_dir }}/cacti/scripts/{{ cacti.plugin.mysql_script }} dest={{ cacti_install_dir }}/scripts
+
+- name: copy ss_get_mysql_stats.php.cnf
+  template: src=cacti.get_mysql_stats.conf.j2 dest={{ cacti.plugin.conf_dir }}/{{ cacti.plugin.mysql_script }}.cnf
+
+- name: create key pair for ssh
+  user: name={{ cacti.remote_user }} generate_ssh_key=yes ssh_key_file={{ cacti.plugin.conf_dir }}/id_rsa
+
+- name: assign owner to key
+  command: chown -R {{ cacti.user }} {{ cacti.plugin.conf_dir }}/id_rsa {{ cacti.plugin.conf_dir }}/id_rsa.pub

@@ -1,0 +1,5 @@
+- include: packages.yml
+- include: nginx.yml
+- include: vhost.yml
+- include: system_tuning.yml
+- include: autostart.yml

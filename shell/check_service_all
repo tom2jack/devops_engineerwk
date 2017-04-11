@@ -1,0 +1,33 @@
+#!/bin/bash
+
+
+echo "Kiem tra xem cac service hien tai co nam tren server khong va tinh trang status, autostart cua cac service nay"
+service_list="mysql mysqld nginx httpd munin munin-node haproxy mongod memcached memcache redis-server redis redis-sentinel keepalived glusterd glusterfsd iptables php-fpm ntpd"
+
+function check_autostart() {
+   service=$1
+   count=$(chkconfig --list | grep $service  | awk '{print $4 $5 $6 $7}' | grep -i -o on | wc -l)
+   [ $count -eq 4 ] &&  echo "$service is auto start"  ||  echo "$service is NOT autostart" 
+}
+
+function check_status() {
+   service=$1;
+   echo "=== CHECKING $service ==="
+   service $service status &> /dev/null
+   status=$?
+   if [ $status -eq 1 ]; then
+      echo "$service is not installed"
+   elif [ $status -eq 3 ]; then
+      echo "$service is stopped"
+      check_autostart $service
+   elif [ $status -eq 0 ]; then
+      echo "$service is RUNNING"        
+      check_autostart $service
+   else
+      echo "Unknow status"
+   fi
+}
+
+for service_item in $service_list; do
+   check_status $service_item 
+done
