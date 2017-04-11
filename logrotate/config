@@ -1,0 +1,18 @@
+/var/log/mysqld/*.log {
+    daily
+    rotate 14
+    missingok
+    notifempty
+    delaycompress
+    compress
+    create 0664 mysql mysql
+    sharedscripts
+    postrotate
+    if test -x /usr/bin/mysqladmin && \
+       /usr/bin/mysqladmin ping &>/dev/null
+    then
+       /usr/bin/mysqladmin flush-logs
+    fi
+    endscript
+}
+

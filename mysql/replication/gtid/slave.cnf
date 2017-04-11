@@ -1,0 +1,71 @@
+[mysqld]
+### basic
+user=mysql
+bind_address=0.0.0.0
+port=3306
+datadir=/var/lib/mysql
+socket=/var/lib/mysql/mysql.sock
+explicit_defaults_for_timestamp = 1
+skip-name-resolve=1
+
+### in case of slave become master when failover
+expire_logs_days = 1
+log_bin = /var/log/mysql/mysql-bin
+log_bin_index       = /var/log/mysql/mysql-bin.log.index
+max_binlog_size         = 100M
+binlog_format=MIXED
+### sync_binlog=1 seem more durable but poorer performance. Let OS decide when flush disk
+sync_binlog=0
+
+### slave
+relay_log           = /var/log/mysql/mysql-relay-bin
+relay_log_index     = /var/log/mysql/mysql-relay-bin.index
+max_relay_log_size = 100M
+relay_log_space_limit = 1024M
+relay_log_purge=1
+server_id=2  ### required
+### log_slave_updates only use for chain replication or for replication data to galera cluster
+log_slave_updates=1 ### required
+### improve with crash safe
+### the way of master info and relay log info from file to table is very easy
+### restart mysqld with new config
+relay_log_recovery=1
+relay_log_info_repository=TABLE
+master_info_repository=TABLE
+
+### gtid
+gtid_mode=ON ### required
+enforce_gtid_consistency=true ### required
+slave_net_timeout=900
+report_host=192.168.7.231
+skip_slave_start=1
+
+### for performance
+tmpdir=/tmp
+innodb_use_native_aio=ON
+innodb_file_per_table=ON
+innodb_flush_log_at_trx_commit=1
+innodb_flush_method = O_DIRECT
+innodb_buffer_pool_size = 32768M
+innodb_buffer_pool_instances = 16
+innodb_log_file_size=128M
+innodb_log_files_in_group=2
+#### thread cache
+thread_cache_size       = 1024
+max_connections         = 1024
+query_cache_size=0
+query_cache_type=0
+
+
+[mysqld_safe]
+log-error=/var/log/mysqld.log
+pid-file=/var/run/mysqld/mysqld.pid
+
+#CHANGE MASTER TO
+#    MASTER_HOST = "192.168.7.230",
+#    MASTER_PORT = 3306,
+#    MASTER_USER = "replication_user",
+#    MASTER_PASSWORD = "slavepass",
+#    MASTER_AUTO_POSITION = 1,
+#    MASTER_CONNECT_RETRY=60,
+#    MASTER_RETRY_COUNT=0;

@@ -1,0 +1,12 @@
+vi /etc/hosts
+10.0.0.36 mongod1.xxx
+10.0.0.37 mongod2.xxx
+
+sudo mkdir -p /data/mongodb
+sudo chown -R mongod:mongod /data/mongodb
+
+sudo mongod -f /etc/mongod.conf --replSet "replset_test"
+
+rs.initiate()
+rs.add("mongod2.xxx")
+rs.status()

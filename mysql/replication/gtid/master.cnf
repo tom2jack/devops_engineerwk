@@ -1,0 +1,66 @@
+[mysqld]
+### basic
+user=mysql
+bind_address=0.0.0.0
+port=3306
+datadir=/var/lib/mysql
+socket=/var/lib/mysql/mysql.sock
+explicit_defaults_for_timestamp = 1
+skip-name-resolve=1
+
+### for master
+expire_logs_days = 1
+log_bin = /var/log/mysql/mysql-bin ### required
+log_bin_index       = /var/log/mysql/mysql-bin.log.index
+max_binlog_size         = 100M
+server_id=1  ### required
+binlog_format=MIXED ### required
+### sync_binlog=1 seem more durable but poorer performance. Let OS decide when flush disk
+sync_binlog=0
+
+### for gtid
+gtid_mode=ON ### required
+enforce_gtid_consistency=true ### required
+
+### for performance
+tmpdir=/tmp
+innodb_use_native_aio=ON
+innodb_file_per_table=ON
+innodb_flush_log_at_trx_commit=1
+innodb_flush_method = O_DIRECT
+innodb_buffer_pool_size = 32768M
+innodb_buffer_pool_instances = 16
+innodb_log_file_size=128M
+innodb_log_files_in_group=2
+#### thread cache
+thread_cache_size       = 1024
+max_connections         = 1024
+query_cache_size=0
+query_cache_type=0
+
+
+### in case of master become slave when failover:
+relay_log           = /var/log/mysql/mysql-relay-bin
+relay_log_index     = /var/log/mysql/mysql-relay-bin.index
+max_relay_log_size = 100M
+relay_log_space_limit = 1024M
+relay_log_purge=1
+### log_slave_updates only use for chain replication or for replication data to galera cluster
+log_slave_updates=1 ### required
+report_host=192.168.7.230
+slave_net_timeout=900
+skip_slave_start=1
+
+### improve with crash safe
+### the way of master info and relay log info from file to table is very easy
+### restart mysqld with new config
+relay_log_recovery=1
+relay_log_info_repository=TABLE
+master_info_repository=TABLE
+
+[mysqld_safe]
+log-error=/var/log/mysqld.log
+pid-file=/var/run/mysqld/mysqld.pid
+
+###
+### GRANT REPLICATION SLAVE ON *.* TO 'replication_user'@'192.168.7.%' IDENTIFIED BY 'slavepass';
