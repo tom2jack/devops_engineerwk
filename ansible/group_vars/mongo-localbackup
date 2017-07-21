@@ -18,10 +18,3 @@ mongo:
 cron_minute: 1
 cron_hour: 0
 bacula_fd_name: "Tell-Me-If-You-See-The-Line"
-bacula:
-  ip: "bacula ip"
-  domain: "bacula domain"
-  version: "7.4.0"
-  download: "http://downloads.sourceforge.net/project/bacula/bacula/7.4.0/bacula-7.4.0.tar.gz"
-  fd_password: "bacula fd passwd"
-  mon_password: "bacula mon passwd"
