@@ -14,6 +14,6 @@ xtrabackup:
   galera_param: "--galera-info"
   myisam_param:	"--lock-wait-timeout=180 --lock-wait-threshold=20 --lock-wait-query-type=all --kill-long-queries-timeout=20 --kill-long-query-type=all"
   root_open_file_limit: 8192
-cron_minute: 1
+cron_minute: 5
 cron_hour: 0
 bacula_fd_name: "Tell-Me-If-You-See-The-Line"
