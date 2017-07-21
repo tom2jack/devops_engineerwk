@@ -24,7 +24,7 @@
 # use this group for options that older servers don't understand
 [mariadb-10.0]
 user=mysql
-bind_address=126.1.23.29
+bind_address=127.0.0.1
 port=3306
 ### use symlink refer to higher disk space.
 datadir=/var/lib/mysql
