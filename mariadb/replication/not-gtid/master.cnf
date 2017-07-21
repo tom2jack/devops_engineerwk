@@ -24,7 +24,7 @@
 # use this group for options that older servers don't understand
 [mariadb-10.0]
 user=mysql
-bind_address=0.0.0.0
+bind_address=126.1.23.29
 port=3306
 ### use symlink refer to higher disk space.
 datadir=/var/lib/mysql
@@ -32,7 +32,7 @@ socket=/var/lib/mysql/mysql.sock
 log-error=/var/log/mysqld/mysqld.log
 pid-file=/var/run/mysqld/mysqld.pid
 ### only use IP
-skip-name-resolve=1
+skip-name-resolve=5
 
 ### for master
 expire_logs_days = 7
@@ -117,4 +117,4 @@ streamfmt=xbstream
 #sudo chown -R mysql:mysql /data/mysql_tmpdir/
 #sudo chown -R mysql:mysql /data/mysql_datadir/
 
-### GRANT REPLICATION SLAVE ON *.* TO 'replication_user'@'10.0.0.%' IDENTIFIED BY 'pass';
+GRANT REPLICATION SLAVE ON *.* TO 'replication_user'@'126.1.23.30%' IDENTIFIED BY 'pass';
