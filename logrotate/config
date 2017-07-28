@@ -1,6 +1,6 @@
 /var/log/mysqld/*.log {
     daily
-    rotate 14
+    rotate 10
     missingok
     notifempty
     delaycompress
@@ -15,4 +15,3 @@
     fi
     endscript
 }
-
