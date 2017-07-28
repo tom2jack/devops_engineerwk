@@ -1,5 +1,5 @@
 FROM xavivn/centos6:2.0
-MAINTAINER Nguyen Manh Dung
+MAINTAINER B.S
 ENV PACKAGE_URL https://dev.mysql.com/get/mysql57-community-release-el6-8.noarch.rpm
 RUN yum -y install $PACKAGE_URL \
         && yum -y install mysql-community-server
