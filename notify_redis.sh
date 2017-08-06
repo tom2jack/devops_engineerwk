@@ -1,7 +1,7 @@
 #!/bin/bash
 
-event_type=$1
-event_desc=$2
+event_type=$event1
+event_desc=$event2
 OUTPUT_FILE="/dev/shm/notify_redis_event_output"
 mail_subject=""
 mail_body=""
@@ -13,8 +13,8 @@ TARGET=$ADMIN
 
 
 function send_mail(){
-     mail_subject="${1}"
-     mail_body="${2}"   
+     mail_subject="${event1}"
+     mail_body="${evvent2}"   
      cat ${mail_body} | /bin/mail -s  "${mail_subject}" -S smtp=smtp://${SMTP_SERVER} -S from="Admin_Notify_Redis_Sentinel<admin@xxx.com>" "$TARGET"
 }
 
@@ -47,4 +47,3 @@ elif [ "${event_type}" == "+switch-master" ]; then
 else
         ### do nothing
 fi
-
