@@ -1,0 +1,13 @@
+FROM FROM centos:7
+MAINTAINER B.S
+ENV PACKAGE_URL https://www.dovecot.org/download.html
+RUN yum -y install $PACKAGE_URL \
+        && yum -y install dovecot
+        && yum update
+VOLUME /etc/dovecot.conf/
+VOLUME /var/lib/dovecot/
+COPY docker-entrypoint.sh /docker-entrypoint.sh
+RUN ["chmod", "u+x", "/docker-entrypoint.sh"]
+ENV LANG en_US.utf8
+CMD ["/bin/bash"]
+ENTRYPOINT ["/docker-entrypoint.sh"]
