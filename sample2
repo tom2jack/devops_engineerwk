@@ -1,3 +1,0 @@
-; Enable mysql abc1 module
-abc1=mysql.so
-
