@@ -1,0 +1,4 @@
+# See man 4 aliases for format
+postmaster: root
+root: someuser
+info: someuser
