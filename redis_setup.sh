@@ -1,7 +1,7 @@
 #!/bin/bash
 
 ROOT_ID=0
-REDIS_LASTEST_STABLE="redis-2.8.19"
+REDIS_LASTEST_STABLE="redis-4.0.1"
 URL_REDIS_DOWNLOAD="http://download.redis.io/releases/${REDIS_LASTEST_STABLE}.tar.gz"
 FILE_TAR_GZ="${REDIS_LASTEST_STABLE}.tar.gz"
 INSTALLATION_DIR="${REDIS_LASTEST_STABLE}"
@@ -98,4 +98,3 @@ touch /var/log/redis_6379.log
 chown -R redis:redis /var/log/redis_6379.log
 
 echo "DONE !"
-
