@@ -16,7 +16,7 @@ rm -rf "${FILE_TAR_GZ}" > /dev/null 2>&1
 rm -rf "${INSTALLATION_DIR}" > /dev/null 2>&1
 echo "Remove ${FILE_TAR_GZ} ${INSTALLATION_DIR} [OK]"
 
-echo "This script will download redis-2.8.19. You should replace URL_REDIS_DOWNLOAD by lastest stable"
+echo "This script will download redis-4.0.1. You should replace URL_REDIS_DOWNLOAD by lastest stable"
 curl -o "${FILE_TAR_GZ}" -Lk "${URL_REDIS_DOWNLOAD}" > /dev/null 2>&1
 status=$?
 [ $status -ne 0 ] && { echo "Download Redis $URL_REDIS_DOWNLOAD failed"; exit 2; }
