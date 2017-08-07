@@ -38,5 +38,5 @@ RUN newaliases
 # to run within Docker).
 RUN apt-get install -q -y syslog-ng
 
-EXPOSe 25
+EXPOSE 25
 CMD ["sh", "-c", "service syslog-ng start ; service postfix start ; tail -F /var/log/mail.log"]
