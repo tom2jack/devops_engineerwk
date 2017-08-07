@@ -1,0 +1,21 @@
+# Setup Bacula file daemon
+---
+- name: Ensure bacula-fd is installed
+  apt: pkg=bacula-fd cache_valid_time={{ apt_cache_valid_time }}
+  notify:
+      - restart bacula-fd
+
+- name: deploy bacula-fd configuration
+  template:
+      src: config_bacula_fd.j2
+      dest: /etc/bacula/bacula-fd.conf
+      mode: 0600
+  notify:
+      - start bacula-fd
+
+- name: Ensure bacula file daemon starts on reboot
+  service:
+      name: bacula-fd
+      state: restarted
+      enabled: yes
+  ignore_errors: "{{ ansible_check_mode }}"
