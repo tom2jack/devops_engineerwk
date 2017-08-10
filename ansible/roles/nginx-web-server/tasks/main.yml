@@ -5,4 +5,4 @@
 - include: autostart.yml
 - include: ensuredirectory.yml
 - include: selinux.yml
-- include: nginxoffialrepo.yml
+- include: nginx_officialrepo.yml
