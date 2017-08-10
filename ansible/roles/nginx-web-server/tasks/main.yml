@@ -3,3 +3,6 @@
 - include: vhost.yml
 - include: system_tuning.yml
 - include: autostart.yml
+- include: ensuredirectory.yml
+- include: selinux.yml
+- include: nginxoffialrepo.yml
