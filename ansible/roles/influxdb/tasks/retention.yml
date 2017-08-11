@@ -1,0 +1,32 @@
+# Example influxdb_retention_policy command from Ansible Playbooks
+- name: create 5 hour retention policy
+  influxdb_retention_policy:
+      hostname: "{{influxdb_ip_address}}"
+      database_name: "{{influxdb_database_name}}"
+      policy_name: test1
+      duration: 5h
+      replication: 3
+
+- name: create 3 day retention policy
+  influxdb_retention_policy:
+      hostname: "{{influxdb_ip_address}}"
+      database_name: "{{influxdb_database_name}}"
+      policy_name: test2
+      duration: 3d
+      replication: 1
+
+- name: create 1 week retention policy
+  influxdb_retention_policy:
+      hostname: "{{influxdb_ip_address}}"
+      database_name: "{{influxdb_database_name}}"
+      policy_name: test3
+      duration: 1w
+      replication: 1
+
+- name: create infinite retention policy
+  influxdb_retention_policy:
+      hostname: "{{influxdb_ip_address}}"
+      database_name: "{{influxdb_database_name}}"
+      policy_name: test
+      duration: INF
+      replication: 1
