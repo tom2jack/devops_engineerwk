@@ -1,7 +1,10 @@
 [lvm-localbackup]
 X.X.X.X backup_name="shard1" bacula_fd_name="shard1"
 Y.Y.Y.Y backup_name="shard2" bacula_fd_name="shard2"
+Z.Z.Z.Z backup_name="shard3" bacula_fd_name="shard3"
 
 [lvm-localbackup:vars]
 ansible_ssh_port=22
-
+ansible_ssh_user=
+ansible_user=
+transport=ssh
