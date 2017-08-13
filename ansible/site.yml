@@ -1,5 +1,5 @@
 - hosts: all
-  roles:  
+  roles:
   - role: common
 
 - hosts: dbservers
@@ -8,4 +8,8 @@
 
 - hosts: webservers
   roles:
-  - role: nginx-web-server       
+  - role: nginx-web-server
+
+- hosts: cacti
+  roles:
+  - role: cacti  
