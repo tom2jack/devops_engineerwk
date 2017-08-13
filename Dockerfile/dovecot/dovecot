@@ -6,8 +6,8 @@ RUN yum -y install $PACKAGE_URL \
         && yum update
 VOLUME /etc/dovecot.conf/
 VOLUME /var/lib/dovecot/
-COPY docker-entrypoint.sh /docker-entrypoint.sh
-RUN ["chmod", "u+x", "/docker-entrypoint.sh"]
+COPY dovecot-entrypoint.sh /dovecot-entrypoint.sh
+RUN ["chmod", "u+x", "/dovecot-entrypoint.sh"]
 ENV LANG en_US.utf8
 CMD ["/bin/bash"]
-ENTRYPOINT ["/docker-entrypoint.sh"]
+ENTRYPOINT ["/dovecot-entrypoint.sh"]
