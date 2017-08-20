@@ -4,18 +4,24 @@ git add .
 git add -A
 git add --all
 git diff filename
-git commit -m "comment"
+git commit -m "[descriptive message]"
 git push -u origin master
 git pull origin master
 git remote add origin <URL.git>
 git remote -v
 git stash
+git stash list
+git stash pop
 git rebase
 git rebase -i
 git branch
 git status
 git merge
 git reset
+git rm
+git rm --cached [file]
+git mv [file-original] [file-renamed]
+git ls-files --other --ignored --exclude-standard  : this command is to list all ignored files in project
 git tag
 git fetch
 git ls-tree
@@ -24,12 +30,21 @@ git grep
 gitk
 git archive
 git gc
+git reset –hard
 git prune
 git init
+git cherry-pick
 git --version
 git log [-p]
+git log -oneline
+git blame (file_name)
 git clone
 git show HEAD
+git describe
+git shortlog
 git config --global credential.helper cache
 git config --global credential.helper 'cache --timeout=3600'
 git config --global --unset credential.helper
+git config –system core.editor
+git config –global –edit
+git config –global color.ui auto
