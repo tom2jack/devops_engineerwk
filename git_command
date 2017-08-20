@@ -27,7 +27,7 @@ git gc
 git prune
 git init
 git --version
-git log
+git log [-p]
 git clone
 git show HEAD
 git config --global credential.helper cache
