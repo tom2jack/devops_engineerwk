@@ -39,7 +39,7 @@ expire_logs_days = 7
 log_bin = /var/log/mysql/mysql-bin ### required
 log_bin_index       = /var/log/mysql/mysql-bin.log.index
 max_binlog_size         = 100M
-server_id=10  ### required
+server_id=2  ### required
 binlog_format=MIXED ### required
 ### sync_binlog=1 seem more durable but poorer performance. Let OS decide when flush disk
 sync_binlog=0
@@ -61,7 +61,7 @@ max_connections         = 1024
 
 log_output=FILE
 ### slow query ###
-slow_query_log=1
+slow_query_log=5
 log_queries_not_using_indexes=0
 log_warnings=1
 long_query_time = 2
