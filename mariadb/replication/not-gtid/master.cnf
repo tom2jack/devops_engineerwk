@@ -39,10 +39,13 @@ expire_logs_days = 7
 log_bin = /var/log/mysql/mysql-bin ### required
 log_bin_index       = /var/log/mysql/mysql-bin.log.index
 max_binlog_size         = 100M
-server_id=1  ### required
+server_id=1  ###
 binlog_format=MIXED ### required
 ### sync_binlog=1 seem more durable but poorer performance. Let OS decide when flush disk
 sync_binlog=0
+innodb_flush_log_at_trx_commit=1
+sync_binlog=1
+
 
 ### some recommend improvement
 innodb_use_native_aio=ON
@@ -117,4 +120,5 @@ streamfmt=xbstream
 #sudo chown -R mysql:mysql /data/mysql_tmpdir/
 #sudo chown -R mysql:mysql /data/mysql_datadir/
 
+#Grant needed 'grant' to replication user 
 GRANT REPLICATION SLAVE ON *.* TO 'replication_user'@'126.1.23.30%' IDENTIFIED BY 'pass';
