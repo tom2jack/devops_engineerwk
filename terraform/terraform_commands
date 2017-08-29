@@ -1,0 +1,196 @@
+$ terraform
+Usage: terraform [--version] [--help] <command> [args]
+
+The available commands for execution are listed below.
+The most common, useful commands are shown first, followed by
+less common or more advanced commands. If you're just getting
+started with Terraform, stick with the common commands. For the
+other commands, please read the help and docs before usage.
+
+Common commands:
+    apply              Builds or changes infrastructure
+    console            Interactive console for Terraform interpolations
+    destroy            Destroy Terraform-managed infrastructure
+    fmt                Rewrites config files to canonical format
+    get                Download and install modules for the configuration
+    graph              Create a visual graph of Terraform resources
+    import             Import existing infrastructure into Terraform
+    init               Initialize a new or existing Terraform configuration
+    output             Read an output from a state file
+    plan               Generate and show an execution plan
+    providers          Prints a tree of the providers used in the configuration
+    push               Upload this Terraform module to Terraform Enterprise to run
+    refresh            Update local state file against real resources
+    show               Inspect Terraform state or plan
+    taint              Manually mark a resource for recreation
+    untaint            Manually unmark a resource as tainted
+    validate           Validates the Terraform files
+    version            Prints the Terraform version
+    workspace          Workspace management
+
+All other commands:
+    debug              Debug output management (experimental)
+    force-unlock       Manually unlock the terraform state
+    state              Advanced state management
+
+
+1- Terraform apply
+
+Usage: terraform apply [options] [dir-or-plan]
+
+2- Terraform console
+
+Usage: terraform console [options] [dir]
+
+3- Terraform destroy (caution)
+
+Usage: terraform destroy [options] [dir]
+
+4- Terraform env
+
+Usage: terraform workspace <subcommand> [options] [args]
+
+get list :
+
+$ terraform workspace list
+
+to select another workspace from list
+
+terraform workspace select default
+
+To create a new workspace
+
+terraform workspace new example-workspace
+
+To delete a workspace
+
+Usage: terraform workspace delete [NAME]
+
+5- Terraform fmt - command to rewrite terraform configuration
+
+Usage: terraform fmt [options] [DIR]
+
+6- Terraform force unlock - command to unlock the state of a defined configuration
+
+form force-unlock LOCK_ID [DIR]
+
+7- Terraform Get - very important command to get modules used with terraform
+
+ terraform get [options] [dir]
+
+8-  Terraform Graph - The terraform graph command is used to generate a visual representation of either a configuration or execution plan
+
+Usage: terraform graph [options] [DIR]
+
+9- Terraform import - The terraform import command is used to import existing resources into Terraform
+
+Usage: terraform import [options] ADDRESS ID
+
+10-  Terraform init - The terraform init command is used to initialize a working directory containing Terraform configuration files
+
+Usage: terraform init [options] [DIR]
+
+11- Terraform output - The terraform output command is used to extract the value of an output variable from the state file.
+
+Usage: terraform output [options] [NAME]
+
+12- Terraform plan - The terraform plan command is used to create an execution plan
+
+Usage: terraform plan [options] [dir-or-plan]
+
+13- Terraform providers - The terraform providers command prints information about the providers used in the current configuration.
+
+Usage: terraform providers [config-path]
+
+14- Terraform push - The terraform push command uploads your Terraform configuration to be managed by HashiCorp's Terraform Enterprise.
+
+Usage: terraform push [options] [path]
+
+The path argument is the same as for the apply command.
+
+The command-line flags are all optional. The list of available flags are:
+
+-atlas-address=<url> - An alternate address to an instance. Defaults to https://atlas.hashicorp.com.
+
+-upload-modules=true - If true (default), then the modules being used are all locked at their current checkout and uploaded completely. This prevents Terraform Enterprise from running terraform get for you.
+
+-name=<name> - Name of the infrastructure configuration in Terraform Enterprise. The format of this is: "username/name" so that you can upload configurations not just to your account but to other accounts and organizations. This setting can also be set in the configuration in the Terraform Enterprise section.
+
+-no-color - Disables output with coloring
+
+-overwrite=foo - Marks a specific variable to be updated. Normally, if a variable is already set Terraform will not send the local value (even if it is different). This forces it to send the local value to Terraform Enterprise. This flag can be repeated multiple times.
+
+-token=<token> - Terraform Enterprise API token to use to authorize the upload. If blank or unspecified, the ATLAS_TOKEN environment variable will be used.
+
+-var='foo=bar' - Set the value of a variable for the Terraform configuration.
+
+-var-file=foo - Set the value of variables using a variable file. This flag can be used multiple times.
+
+-vcs=true - If true (default), then Terraform will detect if a VCS is in use, such as Git, and will only upload files that are committed to version control. If no version control system is detected, Terraform will upload all files in path (parameter to the command).
+
+
+15-  Terraform refresh - The terraform refresh command is used to reconcile the state Terraform knows about (via its state file) with the real-world infrastructure.
+
+Usage: terraform refresh [options] [dir]
+
+By default, refresh requires no flags and looks in the current directory for the configuration and state file to refresh.
+
+The command-line flags are all optional. The list of available flags are:
+
+-backup=path - Path to the backup file. Defaults to -state-out with the ".backup" extension. Disabled by setting to "-".
+
+-input=true - Ask for input for variables if not directly set.
+
+-lock=true - Lock the state file when locking is supported.
+
+-lock-timeout=0s - Duration to retry a state lock.
+
+-no-color - If specified, output won't contain any color.
+
+-state=path - Path to read and write the state file to. Defaults to "terraform.tfstate". Ignored when remote state is used.
+
+-state-out=path - Path to write updated state file. By default, the -state path will be used. Ignored when remote state is used.
+
+-target=resource - A Resource Address to target. Operation will be limited to this resource and its dependencies. This flag can be used multiple times.
+
+-var 'foo=bar' - Set a variable in the Terraform configuration. This flag can be set multiple times. Variable values are interpreted as HCL, so list and map values can be specified via this flag.
+
+-var-file=foo - Set variables in the Terraform configuration from a variable file. If a terraform.tfvars or any .auto.tfvars files are present in the current directory, they will be automatically loaded. terraform.tfvars is loaded first and the .auto.tfvars files after in alphabetical order. Any files specified by -var-file override any values set automatically from files in the working directory. This flag can be used multiple times.
+
+16- Terraform show - The terraform show command is used to provide human-readable output from a state or plan file
+
+Usage: terraform show [options] [path]
+
+17- Terraform state - The terraform state command is used for advanced state management
+
+Usage: terraform state <subcommand> [options] [args]
+
+18- Terraform validate -  The terraform validate command is used to validate the syntax of the terraform files. Terraform performs a syntax check on all the terraform files in the directory, and will display an error if any of the files doesn't validate.
+
+This command does not check formatting (e.g. tabs vs spaces, newlines, comments etc.).
+
+The following can be reported:
+
+invalid HCL syntax (e.g. missing trailing quote or equal sign)
+invalid HCL references (e.g. variable name or attribute which doesn't exist)
+same provider declared multiple times
+same module declared multiple times
+same resource declared multiple times
+invalid module name
+interpolation used in places where it's unsupported (e.g. variable, depends_on, module.source, provider)
+missing value for a variable (none of -var foo=... flag, -var-file=foo.vars flag, TF_VAR_foo environment variable, terraform.tfvars, or default value in the configuration)
+» Usage
+
+Usage: terraform validate [options] [dir]
+
+By default, validate requires no flags and looks in the current directory for the configurations.
+
+The command-line flags are all optional. The available flags are:
+
+-check-variables=true - If set to true (default), the command will check whether all required variables have been specified.
+
+-no-color - Disables output with coloring.
+
+-var 'foo=bar' - Set a variable in the Terraform configuration. This flag can be set multiple times. Variable values are interpreted as HCL, so list and map values can be specified via this flag.
+
+-var-file=foo - Set variables in the Terraform configuration from a variable file. If "terraform.tfvars" is present, it will be automatically loaded first. Any files specified by -var-file override any values in a "terraform.tfvars". This flag can be used multiple times.
