@@ -12,7 +12,7 @@ In nginx-web-server/vars/main.yml:
 For upstream, you just only modify site_name and backend_extra_parameters
 For proxy, you modify site_name, upstream_name, proxy_extra_parameters and upstream list
 
-DON'T RUN common.yml if you do not read how it works
+DON'T RUN common.yml if you do not read how it works. Common.yml will apply the playbook to all servers so it it very important you understand the functionality of common.yml before you start using it.
 
 Run:
 ansible-playbook -s webservers.yml --tags "creating nginx.conf"
