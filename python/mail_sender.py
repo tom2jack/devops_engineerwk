@@ -1,5 +1,6 @@
 import smtplib
 import traceback
+
 USER="YOUR USERNAME GMAIL"
 PASSWORD="YOUR PASSWD GMAIL"
 FROM="YOUR GMAIL ADDRESS"
