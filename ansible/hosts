@@ -22,10 +22,15 @@ IP3 backend=1
 IP4 proxy=1
 
 [webservers:vars]
-
+IP1 server_id=21 node_name=node1
+IP2 server_id=22 node_name=node2
+IP3 server_id=23 node_name=node3
 
 [servers:children]
-webservers
+webservers1
+webservers2
 
 [cacti]
 IP1
+IP2
+IP3

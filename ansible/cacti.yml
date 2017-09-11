@@ -1,3 +1,4 @@
-- hosts: cacti
-  roles:  
+- hosts: "{{ cacti }}"
+  forks: "{{ forks }}"
+  roles:
   - role: cacti
