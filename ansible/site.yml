@@ -12,4 +12,8 @@
 
 - hosts: cacti
   roles:
-  - role: cacti  
+  - role: cacti
+
+- hosts: xtrabackup
+  roles:
+  - role: xtrabackup    
