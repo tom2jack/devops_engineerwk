@@ -3,7 +3,7 @@ MAINTAINER B.S
 ENV PACKAGE_URL https://dev.mysql.com/get/mysql57-community-release-el6-8.noarch.rpm
 RUN yum -y install $PACKAGE_URL \
         && yum -y install mysql-community-server
-        && yum updgrade
+        && yum upgrade
 VOLUME /etc/my.cnf.d/
 VOLUME /var/lib/mysql/
 COPY docker-entrypoint.sh /docker-entrypoint.sh
