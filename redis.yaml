@@ -1,0 +1,37 @@
+---
+- name: Prepare redis host
+  hosts: nodes
+  become: yes
+  become_user: root
+  become_method: sudo
+  vars:
+    redis_conf_path: /etc/redis.conf
+  tasks:
+    - name: set locale
+      lineinfile: dest=/etc/default/locale line="LC_ALL=C"
+
+    - name: install redis
+      apt: name=redis-server update_cache=yes
+
+    - name: create user redis
+      user:
+        name: redis
+        system: yes
+        home: "/var/lib/redis"
+        shell: "/bin/false"
+
+    - name: create the redis configuration file
+      template:
+        src: redis.conf.j2
+        dest: "{{ redis_conf_path }}"
+        mode: 0644
+        backup: yes
+      notify:
+        - restart redis
+
+    - name: start redis
+      service:
+        name: redis-server
+        state: started
+        arguments: "{{ redis_conf_path }}"
+        enabled: yes
