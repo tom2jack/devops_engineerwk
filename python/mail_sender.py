@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 import smtplib
 import traceback
 

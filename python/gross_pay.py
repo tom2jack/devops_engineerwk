@@ -1,4 +1,6 @@
+#!/usr/bin/env python
 import sys
+import math
 #Write a program to prompt the user for hours and
 #rate per hour to compute gross pay.
 #Enter Hours: 35

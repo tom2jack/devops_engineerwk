@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 import sys as system
 from sys import argv
 
@@ -35,7 +36,7 @@ while ask != "y" and ask != "Y" and ask != "N" and ask != "n":
     elif ask == "Y" or ask == "y":
         txt.truncate()
     else:
-        print "Answer me"    
+        print "Answer me"
 print "Enter three lines:"
 for i in range(0,3):
     line = raw_input("Line: ")

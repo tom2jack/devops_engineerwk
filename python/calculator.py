@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 import math as m
 import traceback
 
@@ -99,10 +100,3 @@ while choice != 12:
     except:
         print "Give me a valid number"
         traceback.print_exc()
-        
-
-
-        
-
-
-
