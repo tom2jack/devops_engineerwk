@@ -3,6 +3,8 @@ KEY_WORD="nameserver"
 
 PRIMARY_GOOGLE_DNS="8.8.8.8"
 SECONDARY_GOOGLE_DNS="8.8.4.4"
+GOOGLE_PRIMARY_IPV_DNS="2001:4860:4860::8888"
+GOOGLE_SECONDARY_IPV_DNS="2001:4860:4860::8844"
 
 PRIMARY_OPEN_DNS="208.67.222.222"
 SECONDARY_OPEN_DNS="208.67.220.220"
@@ -15,6 +17,6 @@ ROOT_ID=0
 [ ! -f ${FILE} ] && { echo "File ${FILE} is not exists"; exit 2; }
 
 ### xoa tat ca cac dong bat dau bang cum tu nameserver
-sed -i "/^${KEY_WORD}/d" "${FILE}"  
+sed -i "/^${KEY_WORD}/d" "${FILE}"
 
 echo -e "${KEY_WORD} ${PRIMARY_GOOGLE_DNS}\n${KEY_WORD} ${SECONDARY_GOOGLE_DNS}\n${KEY_WORD} ${PRIMARY_OPEN_DNS}\n${KEY_WORD} ${SECONDARY_OPEN_DNS}" >> ${FILE}
