@@ -8,7 +8,6 @@ set -e
 echo "Initializing..."
 mkdir -p /var/log/dovecot /var/log/getmail
 touch /var/log/dovecot/dovecot.log
-chown root:users /var/log/dovecot/dovecot.log
 chmod 664 /var/log/dovecot/dovecot.log
 for USER in $(ls -1 /home); do
   echo "User '$USER':"
