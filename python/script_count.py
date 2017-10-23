@@ -1,4 +1,4 @@
-# Modifications		: 1.1 - 28-02-2012 - CR - Changed inside github and development functions, so instead of if os.name = "posix" do this else do this etc 
+# Modifications		: 1.1 - 28-02-2012 - CR - Changed inside github and development functions, so instead of if os.name = "posix" do this else do this etc
 #							: I used os.path.join, so it condensed 4 lines down to 1
 #							: 1.2 - 10-05-2012 - CR - Added a line to include PHP scripts.
 #							: 1.3 - 20-07-2012 - CR - Added the line to include Batch scripts
