@@ -1,7 +1,7 @@
 ##Install ansible on all servers
 
-wget https://dl.fedoraproject.org/pub/epel/epel-release-latest-6.noarch.rpm
-rpm -ivh epel-release-latest-6.noarch.rpm
+wget https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
+rpm -ivh epel-release-latest-7.noarch.rpm
 yum install --enablerepo=epel ansible
 
 ##Pick a server for ansible server and allow it access to the remain servers via SSH based authentication
@@ -26,7 +26,7 @@ ansible -m debug -a "var=hostvars[groups['dbservers'][2]]" localhost
 ansible -m debug -a "var=hostvars" localhost
 
 Dependencies:
-yum install gcc gcc-c++ python-devel MariaDB-devel openssl-devel
+yum install gcc gcc-c++ python-devel MariaDB-devel openssl-devel openssl 
 easy_install MySQL-python
 
 Start:
