@@ -1,6 +1,6 @@
 #!/bin/bash
 
-SERVICE_NAMES="sshd crond haproxy keepalived ntpd rsyslog garb munin-node "
+SERVICE_NAMES="sshd mysqld crond haproxy keepalived ntpd rsyslog garb munin-node "
 
 for service_item in $SERVICE_NAMES; do
         chkconfig $service_item on > /dev/null 2>&1
